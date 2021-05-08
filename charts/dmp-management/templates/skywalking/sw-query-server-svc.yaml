@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-dmp-sw-query-server"
+  labels:
+    {{- include "dmp-management.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.dmp.skywalkingQueryServer.service.type }}
+  ports:
+    - port: 12801
+      name: sw-q-12801
+  selector:
+    dx.daocloud.io/service-name: dmp-sw-query-server

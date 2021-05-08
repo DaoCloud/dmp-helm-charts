@@ -1,0 +1,264 @@
+# Default values for dmp-management.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# DX settings from DX portal
+external:
+  # DCE SSO登录，DCE控制节点地址
+  dceControllerNodeUrl: "https://172.16.100.249"
+  k8sServer: "https://172.31.0.1:443"
+  # kubectl get secret -oyaml
+  k8sToken: "ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkltUnVibTFSYUVkbVdtTlBUR2hzZHpVd1dEZE9UVWhhZFdKdlJVZHpaMDV2Y1hOcmFqTnNTM1ZVYUhNaWZRLmV5SnBjM01pT2lKcmRXS********************lleFlqZU9jWS1qMzByNE5jajhiTGYyTlFoczJCX1dhVjM4U1RKN0x2NjVJY1JBaDlFVmdYNmgxa0VNbDlEeUltRzlfSnBOc1N0bGdxclY0ajJTQlJ3bW5SeWxYMGVvQ0FDcnZUNnJwS0xtZm5DbHVuekdlRGh4OHV5Y21FaTd2ZTZMSUh0SmlnaUlSOWxLblZYNVlwYzltZWpJc2t1ajIzT0ZCS293ellVd2c="
+dmp:
+  configmap:
+    dx:
+      archClientId: ""
+      archClientSecret: ""
+      archUrl: ""
+      archEnabled: "false"
+    db:
+      url: "dmp-mysql-m.common:3306"
+      username: "root"
+      password: "dangerous"
+    es:
+      url: "http://dmp-es-m.common:9200"
+      username: ""
+      password: ""
+    redis:
+      # redis模式：redis-single/redis-sentinel
+      mode: "redis-single"
+      url: "redis://redispass@dmp-redis-m.common:6379"
+      master: "mymaster" # Redis Master name，只有哨兵模式有用
+      userName: ""
+      password: "redispass"
+      nodes: "redis-sentinel.dmp-common.svc:26379"
+    logLevel: "INFO"
+    loggingKafkaConfigFile: "" # 配置为 'log4j2-kafka.xml' 开启
+    kafkaServers: "127.0.0.1:9092"
+    apolloConfigService: "http://dmp-apollo-configservice:8080"
+    userCenterUrl: "http://dmp-user-center:9050"
+    swQueryServerUrl: "http://dmp-sw-query-server:12801"
+    configCenterUrl: "http://dmp-apollo-adminservice:8090"
+    fateUrl: "http://dmp-fate:9056"
+    twiceUrl: "http://dmp-twice:8765"
+    #UI使用的变量，写fate的nodeport地址，因为此地址需要访问DMP界面的浏览器本地可访问。
+    fateNodePortUrl: "ws://dmp-fate:9056"
+    # 帮助手册地址
+    helpDocsUrl: "https://guide.daocloud.io/dmp-2.4"
+    twiceAdminEnable: "true"
+    ##############################################
+    # Health Check
+    managmentNamespace: "dmp-m"
+    skywalking:
+      cluster: "kubernetes"
+      storageType: "elasticsearch7"
+      configurationType: "k8s-configmap"
+      k8sLabel: "app=dmp-skywalking-oap"
+      esBulkActions: "1000"
+      esBulkSize: "10"
+      recordDataTTL: "45" #链路数据保存周期，单位是天，此处代表 45天
+      metricsDataTTL: "45" #指标数据保存周期，单位是天，此处代表 45天
+      slowDBAccessThreshold: "default:0,mongodb:0"
+
+      # 如果ES是单节点则配置为 0
+      esIndexReplicasNum: "0"
+  apollo:
+    image:
+      cofnigService:
+        repository: registry.dx.io/dx-pilot/dmp-apollo-config
+        tag: 2.5.0  # Must be set explicitly
+        pullPolicy: IfNotPresent
+        # TODO: not works?
+        resources:
+          requests:
+            memory: "2048Mi"
+            cpu: "1000m"
+          limits:
+            memory: "2048Mi"
+            cpu: "1000m"
+      adminService:
+        repository: registry.dx.io/dx-pilot/dmp-apollo-admin
+        tag: 2.5.0  # Must be set explicitly
+        pullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "2048Mi"
+          limits:
+            cpu: "1000m"
+            memory: "2048Mi"
+    service:
+      type: ClusterIP
+    replicas: 1
+  userCenter:
+    image:
+      repository: registry.dx.io/dx-pilot/dmp-user-center
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      # TODO: not works?
+      resources:
+        requests:
+          memory: "2048Mi"
+          cpu: "1000m"
+        limits:
+          memory: "2048Mi"
+          cpu: "1000m"
+    service:
+      type: ClusterIP
+    javaOpts: -Xmx2g -Xms2g
+    replicas: 1
+  fate:
+    logTpoic: "dmp-log-dmp-fate"
+    image:
+      repository: registry.dx.io/dx-pilot/dmp-fate
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      # TODO: not works?
+      resources:
+        requests:
+          memory: "2048Mi"
+          cpu: "1000m"
+        limits:
+          memory: "2048Mi"
+          cpu: "1000m"
+    service:
+      type: NodePort
+    javaOpts: -Xmx2g -Xms2g
+    replicas: 1
+  twice:
+    image:
+      repository: registry.dx.io/dx-pilot/dmp-twice
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      # TODO: not works?
+      resources:
+        requests:
+          memory: "2048Mi"
+          cpu: "1000m"
+        limits:
+          memory: "2048Mi"
+          cpu: "1000m"
+    service:
+      type: ClusterIP
+    javaOpts: -Xmx2g -Xms2g
+    replicas: 1
+  skywalkingQueryServer:
+    logTpoic: "dmp-log-dmp-sw-query-server"
+    image:
+      repository: registry.dx.io/dx-pilot/dmp-sw-query-server
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      # TODO: not works?
+      resources:
+        requests:
+          memory: "2048Mi"
+          cpu: "1000m"
+        limits:
+          memory: "2048Mi"
+          cpu: "1000m"
+    service:
+      type: ClusterIP
+    replicas: 1
+  skywalkingOap:
+    logTpoic: "dmp-log-dmp-skywalking-oap"
+    image:
+      repository: registry.dx.io/dx-pilot/dmp-skywalking-oap
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      # TODO: not works?
+      resources:
+        limits:
+          cpu: "2000m"
+          memory: "4096Mi"
+        requests:
+          cpu: "2000m"
+          memory: "4096Mi"
+    javaOpts: -Xmx2g -Xms2g
+    service:
+      type: ClusterIP
+    replicas: 1
+  ui:
+    image:
+      repository: registry.dx.io/dx-pilot/dmp-ui
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      # TODO: not works?
+      resources:
+    service:
+      type: NodePort
+    replicas: 1
+
+
+
+############
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+#serviceAccount:
+#  # Specifies whether a service account should be created
+#  create: true
+#  # Annotations to add to the service account
+#  annotations: {}
+# # The name of the service account to use.
+# # If not set and create is true, a name is generated using the fullname template
+# name: "dmp-serviceaccount"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+      - path: /
+        backend:
+          serviceName: chart-example.local
+          servicePort: 80
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

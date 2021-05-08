@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-dmp-apollo-configservice"
+  labels:
+    {{- include "dmp-management.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.dmp.apollo.service.type }}
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    dx.daocloud.io/service-name: dmp-apollo-configservice
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-dmp-apollo-adminservice"
+spec:
+  type: {{ .Values.dmp.apollo.service.type }}
+  ports:
+    - port: 8090
+      name: http
+  selector:
+    dx.daocloud.io/service-name: dmp-apollo-adminservice

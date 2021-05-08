@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-dmp-apollo-configservice"
+  labels:
+    dx.daocloud.io/service-name: dmp-apollo-configservice
+spec:
+  replicas: {{ .Values.dmp.apollo.replicas }}
+  selector:
+    matchLabels:
+      dx.daocloud.io/service-name: dmp-apollo-configservice
+  template:
+    metadata:
+      labels:
+        dx.daocloud.io/service-name: dmp-apollo-configservice
+    spec:
+      containers:
+        - name: "{{ .Release.Name }}-dmp-apollo-configservice"
+          image: {{ .Values.dmp.apollo.image.cofnigService.repository }}:{{ .Values.dmp.apollo.image.cofnigService.tag }}
+          imagePullPolicy: {{ .Values.dmp.apollo.image.cofnigService.pullPolicy }}
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8998
+              scheme: HTTP
+            initialDelaySeconds: 80
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8998
+              scheme: HTTP
+            initialDelaySeconds: 95
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          ports:
+            - containerPort: 8080
+              name: configservice
+          envFrom:
+            - configMapRef:
+                name: "{{ .Release.Name }}-dmp-admin-configmap"
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+              readOnly: true
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-dmp-apollo-adminservice"
+  labels:
+    dx.daocloud.io/service-name: dmp-apollo-adminservice
+spec:
+  replicas: {{ .Values.dmp.apollo.replicas }}
+  selector:
+    matchLabels:
+      dx.daocloud.io/service-name: dmp-apollo-adminservice
+  template:
+    metadata:
+      labels:
+        dx.daocloud.io/service-name: dmp-apollo-adminservice
+    spec:
+      containers:
+        - image: {{ .Values.dmp.apollo.image.adminService.repository }}:{{ .Values.dmp.apollo.image.adminService.tag }}
+          name:  "{{ .Release.Name }}-dmp-apollo-adminservice"
+          imagePullPolicy: {{ .Values.dmp.apollo.image.adminService.pullPolicy }}
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+              readOnly: true
+          ports:
+            - containerPort: 8090
+              name: adminservice
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8998
+              scheme: HTTP
+            initialDelaySeconds: 300
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8998
+              scheme: HTTP
+            initialDelaySeconds: 315
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          envFrom:
+            - configMapRef:
+                name: "{{ .Release.Name }}-dmp-admin-configmap"
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime

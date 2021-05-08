@@ -1,0 +1,42 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: "{{ .Release.Name }}-dmp-skywalking-oap"
+  labels:
+    app: "{{ .Release.Name }}-dmp-skywalking-oap"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+rules:
+  - apiGroups: [""]
+    resources: ["pods","configmaps"]
+    verbs: ["get", "watch", "list"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: "{{ .Release.Name }}-dmp-skywalking-oap"
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: "{{ .Release.Name }}-dmp-skywalking-oap"
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: "{{ .Release.Name }}-dmp-skywalking-oap-serviceaccount"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: "{{ .Release.Name }}-dmp-skywalking-oap"
+  labels:
+    app: "{{ .Release.Name }}-dmp-skywalking-oap"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: "{{ .Release.Name }}-dmp-skywalking-oap"
+subjects:
+  - kind: ServiceAccount
+    name: "{{ .Release.Name }}-dmp-skywalking-oap-serviceaccount"
+    namespace: {{ .Release.Namespace }}

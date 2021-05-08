@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Release.Name }}-dmp-admin-configmap"
+data:
+  DCE_URL: {{ .Values.external.dceControllerNodeUrl }}
+
+  ARCH_CLIENT_ID: {{ .Values.dmp.configmap.dx.archClientId | quote }}
+  ARCH_CLIENT_SECRET: {{ .Values.dmp.configmap.dx.archClientSecret | quote }}
+  ARCH_URL: {{ .Values.dmp.configmap.dx.archUrl | quote }}
+  ARCH_ENABLED: {{ .Values.dmp.configmap.dx.archEnabled }}
+
+  ACTIVE_PROFILES: {{ .Values.dmp.configmap.redis.mode }}
+
+  {{ if eq .Values.dmp.configmap.redis.mode "redis-single"}}
+  REDIS_URL: {{ .Values.dmp.configmap.redis.url }}
+  {{ end }}
+
+  {{ if eq .Values.dmp.configmap.redis.mode "redis-sentinel"}}
+  REDIS_NODES: {{ .Values.dmp.configmap.redis.nodes }}
+  REDIS_PASSWORD: {{ .Values.dmp.configmap.redis.password }} # 设置密码
+  REDIS_MASTER: {{ .Values.dmp.configmap.redis.master }}
+  {{ end }}
+
+  DB_URL: {{ .Values.dmp.configmap.db.url }}
+  DB_USERNAME: {{ .Values.dmp.configmap.db.username }}
+  DB_PASSWORD: {{ .Values.dmp.configmap.db.password }}
+
+  ES_URL: {{ .Values.dmp.configmap.es.url }}
+  {{ if ne .Values.dmp.configmap.es.username quote }}
+  ES_USERNAME: {{ .Values.dmp.configmap.es.username }}
+  {{ end }}
+  {{ if ne .Values.dmp.configmap.es.password quote }}
+  ES_PASSWORD: {{ .Values.dmp.configmap.es.password }}
+  {{ end }}
+
+  SW_CLUSTER: {{ .Values.dmp.configmap.skywalking.cluster }}
+
+  SW_STORAGE: {{ .Values.dmp.configmap.skywalking.storageType }}
+  SW_CONFIGURATION: {{ .Values.dmp.configmap.skywalking.configurationType }}
+  SW_CLUSTER_K8S_LABEL: {{ .Values.dmp.configmap.skywalking.k8sLabel }}
+  ## skywalking链路日志的写入数据包大小
+  SW_STORAGE_ES_BULK_ACTIONS:  {{ .Values.dmp.configmap.skywalking.esBulkActions }}
+  SW_STORAGE_ES_BULK_SIZE: {{ .Values.dmp.configmap.skywalking.esBulkSize }}
+  ## skywalking链路日志的保存日期
+  SW_CORE_RECORD_DATA_TTL:  {{ .Values.dmp.configmap.skywalking.recordDataTTL }}
+  SW_CORE_METRICS_DATA_TTL: {{ .Values.dmp.configmap.skywalking.metricsDataTTL }}
+
+  ## DMP组件日志通过Kafka写入ES
+  {{ if eq .Values.dmp.configmap.loggingKafkaConfigFile "log4j2-kafka.xm" }}
+  SW_LOGGING_KAFKA_ENABLED: "true"
+  DMP_LOGS_KAFKA_SERVERS: {{ .Values.dmp.configmap.kafkaServers }}
+  {{ end }}
+  agent-analyzer.default.slowDBAccessThreshold: {{ .Values.dmp.configmap.skywalking.slowDBAccessThreshold }}
+
+  SW_STORAGE_ES_INDEX_REPLICAS_NUMBER: {{ .Values.dmp.configmap.skywalking.esIndexReplicasNum }}
+
+  DMP_META: {{ .Values.dmp.configmap.apolloConfigService }}
+  USER_CENTER_URL: {{ .Values.dmp.configmap.userCenterUrl }}
+  SKYWALKING_QUERY_URL: {{ .Values.dmp.configmap.swQueryServerUrl }}
+  TRACE_URL: {{ .Values.dmp.configmap.swQueryServerUrl }}
+  CONFIG_CENTER_URL:  {{ .Values.dmp.configmap.configCenterUrl }}
+  FATE_URL: {{ .Values.dmp.configmap.fateUrl }}
+  GATEWAY_URL: {{ .Values.dmp.configmap.twiceUrl }}
+  MONITOR_URL: {{ .Values.dmp.configmap.fateNodePortUrl }}
+  TWICE_URL: {{ .Values.dmp.configmap.twiceUrl }}
+  HELP_URL: {{ .Values.dmp.configmap.helpDocsUrl }}
+  # 暂无用途，作为标识
+  ENV: dev
+  ADMIN_ENABLE: {{ .Values.dmp.configmap.twiceAdminEnable }}
+  K8S_SERVER: {{ .Values.external.k8sServer }}
+  K8S_TOKEN: {{ .Values.external.k8sToken }}
+  DMP_LOGS_LEVEL: {{ .Values.dmp.configmap.logLevel }}
+
+  MANAGMENT_NAMESPACE: {{ .Values.dmp.configmap.managmentNamespace }}
+  TENANT_LABEL_NAME: 'dmp.daocloud.io/gateway'
+  SERVICE_LABEL_NAME: 'dmp.daocloud.io/app' # =dmp-gateway- + env code
+  GATEWAY_ENVOY_PORT: '9901'
+  GATEWAY_THOR_PORT: '9876'

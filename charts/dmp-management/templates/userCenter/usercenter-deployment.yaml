@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-dmp-user-center"
+  labels:
+    dx.daocloud.io/service-name: dmp-user-center
+spec:
+  replicas: {{ .Values.dmp.userCenter.replicas }}
+  selector:
+    matchLabels:
+      dx.daocloud.io/service-name: dmp-user-center
+  template:
+    metadata:
+      labels:
+        dx.daocloud.io/service-name: dmp-user-center
+    spec:
+      containers:
+        - image: {{ .Values.dmp.userCenter.image.repository }}:{{ .Values.dmp.userCenter.image.tag }}
+          imagePullPolicy: {{ .Values.dmp.userCenter.image.pullPolicy }}
+          name: "{{ .Release.Name }}-dmp-user-center"
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "1000m"
+            limits:
+              memory: "2048Mi"
+              cpu: "1000m"
+          ports:
+            - containerPort: 9050
+          envFrom:
+            - configMapRef:
+                name: "{{ .Release.Name }}-dmp-admin-configmap"
+          livenessProbe:
+            tcpSocket:
+              port: 8998
+            initialDelaySeconds: 80
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8998
+              scheme: HTTP
+            initialDelaySeconds: 95
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+            # TODO:
+            #- name: DMP_LOGS_TOPIC
+            #  value: dmp-log-dmp-user-center
+            #场景LDAP
+            # - name: USER_PROVIDER
+            #   value: LDAP
+            # - name: LDAP_URLS
+            #   value: ldap://10.10.111.17:389
+            # - name: LDAP_BASE
+            #   value: dc=dcs,dc=nat,dc=com
+            # - name: LDAP_USRENAME
+            #   value: cn=admin,dc=dcs,dc=nat,dc=com
+            # - name: LDAP_PASSWORD
+            #   value: password
+            # 场景AD
+            # - name: LDAP_URLS
+            #   value: ldap://10.10.111.18:389
+            # - name: USER_PROVIDER
+            #   value: LDAP
+            # - name: LDAP_BASE
+            #   value: ou=daodev, dc=dcs, dc=nat, dc=com
+            # - name: LDAP_USRENAME
+            #   value: min.xu@dcs.nat.com
+            # - name: LDAP_PASSWORD
+            #   value: Dangerous123
+            # - name: USER_ATTRIBUTE
+            #   value: samaccountname
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+              readOnly: true
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime

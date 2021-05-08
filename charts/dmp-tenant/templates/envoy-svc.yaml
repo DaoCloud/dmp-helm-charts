@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-dmp-gateway-{{ .Values.dmp.tenant.code }}"
+spec:
+  type: {{ .Values.dmp.tenant.gateway.service.type }}
+  ports:
+    - port: 9901
+      name: admin-port
+    - port: 10000
+      name: l-port
+    - port: 9876
+      name: thor-api
+  selector:
+    app: "{{ .Release.Name }}-dmp-gateway-{{ .Values.dmp.tenant.code }}"

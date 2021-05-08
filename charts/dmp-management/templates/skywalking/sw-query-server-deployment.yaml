@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-dmp-sw-query-server"
+  labels:
+    dx.daocloud.io/service-name: dmp-sw-query-server
+spec:
+  replicas: {{ .Values.dmp.skywalkingQueryServer.replicas }}
+  selector:
+    matchLabels:
+      dx.daocloud.io/service-name: dmp-sw-query-server
+  template:
+    metadata:
+      labels:
+        dx.daocloud.io/service-name: dmp-sw-query-server
+    spec:
+      containers:
+        - image: {{ .Values.dmp.skywalkingQueryServer.image.repository }}:{{ .Values.dmp.skywalkingQueryServer.image.tag }}
+          name: "{{ .Release.Name }}-dmp-sw-query-server"
+          imagePullPolicy: {{ .Values.dmp.skywalkingQueryServer.image.pullPolicy }}
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8998
+              scheme: HTTP
+            initialDelaySeconds: 80
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8998
+              scheme: HTTP
+            initialDelaySeconds: 95
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            requests:
+              memory: "2048Mi"
+              cpu: "1000m"
+            limits:
+              memory: "2048Mi"
+              cpu: "1000m"
+          ports:
+            - containerPort: 12801
+              name: sw-q-12801
+          envFrom:
+            - configMapRef:
+                name: "{{ .Release.Name }}-dmp-admin-configmap"
+          env:
+            - name: LOGGING_LEVEL
+              value: INFO
+            - name: DMP_LOGS_TOPIC
+              value: {{ .Values.dmp.skywalkingQueryServer.logTpoic }}
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+              readOnly: true
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime

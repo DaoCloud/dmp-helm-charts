@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: "{{ .Release.Name }}-dmp-skywalking-oap"
+    dx.daocloud.io/service-name: "{{ .Release.Name }}-dmp-skywalking-oap"
+  name: "{{ .Release.Name }}-dmp-skywalking-oap"
+spec:
+  replicas:  {{ .Values.dmp.skywalkingOap.replicas }}
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-dmp-skywalking-oap"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-dmp-skywalking-oap"
+    spec:
+      serviceAccountName: "{{ .Release.Name }}-dmp-skywalking-oap-serviceaccount"
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            podAffinityTerm:
+              topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchLabels:
+                  app: "{{ .Release.Name }}-dmp-skywalking-oap"
+      containers:
+        - name: "{{ .Release.Name }}-dmp-skywalking-oap"
+          image: {{ .Values.dmp.skywalkingOap.image.repository }}:{{ .Values.dmp.skywalkingOap.image.tag }}
+          imagePullPolicy: {{ .Values.dmp.skywalkingOap.image.pullPolicy }}
+          ports:
+            - containerPort: 11800
+              name: grpc
+            - containerPort: 12800
+              name: rest
+          resources:
+            limits:
+              cpu: "2000m"
+              memory: "4096Mi"
+            requests:
+              cpu: "2000m"
+              memory: "4096Mi"
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8998
+              scheme: HTTP
+            initialDelaySeconds: 80
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8998
+              scheme: HTTP
+            initialDelaySeconds: 95
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          env:
+            - name: JAVA_OPTS
+              value: "{{ .Values.dmp.skywalkingOap.javaOpts }} -Dmode=no-init"
+            - name: SW_CLUSTER_K8S_NAMESPACE
+              value: {{ .Release.Namespace }}
+            - name: SW_CLUSTER_K8S_LABEL
+              value: "app={{ .Release.Name }}-dmp-skywalking-oap"
+            - name: SKYWALKING_COLLECTOR_UID
+              valueFrom:
+                fieldRef:
+                  fieldPath: 'metadata.uid'
+            - name: DMP_LOGS_TOPIC
+              value: {{ .Values.dmp.skywalkingOap.logTpoic }}
+          envFrom:
+            - configMapRef:
+                name: "{{ .Release.Name }}-dmp-admin-configmap"
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+              readOnly: true
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime

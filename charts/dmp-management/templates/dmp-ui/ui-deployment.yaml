@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-dmp-ui"
+  labels:
+    dx.daocloud.io/service-name: dmp-ui
+spec:
+  replicas: {{ .Values.dmp.ui.replicas }}
+  selector:
+    matchLabels:
+      dx.daocloud.io/service-name: dmp-ui
+  template:
+    metadata:
+      labels:
+        dx.daocloud.io/service-name: dmp-ui
+    spec:
+      containers:
+        - image: {{ .Values.dmp.ui.image.repository }}:{{ .Values.dmp.ui.image.tag }}
+          imagePullPolicy: {{ .Values.dmp.ui.image.pullPolicy }}
+          name: "{{ .Release.Name }}-dmp-ui"
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 25
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8098
+          envFrom:
+            - configMapRef:
+                name: "{{ .Release.Name }}-dmp-admin-configmap"
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+              readOnly: true
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime

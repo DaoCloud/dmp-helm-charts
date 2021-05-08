@@ -1,0 +1,33 @@
+dmp:
+  tenant:
+    code: "test" # !!! 注意要更改
+    envoyLoglevel: "INFO"
+    swOapHost: "dmp-skywalking-oap.dmp-m.svc"
+    swOapPort: "11800"
+    twiceHost: "dmp-twice.dmp-m.svc"
+    twicePort: "7000"
+    fateServer: "ws://dmp-fate.dmp-m.svc:9056"
+    esHost: "127.0.0.1"
+    esPort: "9200"
+    gateway:
+      replicas: 1
+      service:
+        type: NodePort
+      image:
+        envoy:
+          repository: registry.dx.io/dx-pilot/dmp-envoy
+          tag: develop-7074d4b  # Must be set explicitly
+          pullPolicy: IfNotPresent
+        fluentd:
+          repository: registry.dx.io/dx-pilot/twice-envoy-fluentd
+          tag: develop-c57fd44  # Must be set explicitly
+          pullPolicy: IfNotPresent
+        thor:
+          repository: registry.dx.io/dx-pilot/dmp-thor
+          tag: develop-04211f9  # Must be set explicitly
+          pullPolicy: IfNotPresent
+
+############
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""

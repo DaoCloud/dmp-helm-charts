@@ -1,0 +1,33 @@
+
+{{- if hasPrefix "elasticsearch" .Values.dmp.configmap.skywalking.storageType }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-dmp-sw-oap-es-init"
+  labels:
+    app: "{{ .Release.Name }}-dmp-skywalking-oap"
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: "{{ .Release.Name }}-dmp-skywalking-job"
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-dmp-sw-oap-es-init"
+      labels:
+        app: "{{ .Release.Name }}-dmp-skywalking-oap"
+        component: "{{ .Release.Name }}-dmp-skywalking-job"
+        release: {{ .Release.Name }}
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: "{{ .Release.Name }}-dmp-skywalking-job"
+        image: {{ .Values.dmp.skywalkingOap.image.repository }}:{{ .Values.dmp.skywalkingOap.image.tag }}
+        imagePullPolicy: {{ .Values.dmp.skywalkingOap.image.pullPolicy }}
+        env:
+        - name: JAVA_OPTS
+          value: "{{ .Values.dmp.skywalkingOap.javaOpts }} -Dmode=init"
+        envFrom:
+          - configMapRef:
+              name: "{{ .Release.Name }}-dmp-admin-configmap"
+{{- end}}
