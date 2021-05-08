@@ -6,7 +6,8 @@
 # dmp-management Chart 使用
 ```Work In progress...```
 ```shell
-git clone 
+git clone  https://github.com/DaoCloud/dmp-helm-chart.git
+
 cd charts
 
 ```
