@@ -1,6 +1,6 @@
 apiVersion: v2
-name: common
-description: DMP Commom Helm chart for Kubernetes
+name: base
+description: DMP base Helm chart for Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -39,5 +39,8 @@ dependencies:
     condition: elasticsearch.enabled
   - name: redis
     version: 14.1.1
-    repository: https://charts.bitnami.com/bitnami
+    repository: https://charts.bitnami.com/bitnami # redis Sentinel
     condition: redis.enabled
+  - name: common
+    version: 1.4.3
+    repository: https://charts.bitnami.com/bitnami

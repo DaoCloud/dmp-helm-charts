@@ -2,6 +2,9 @@ mysql:
   enabled: true
   size: 8Gi
 
+redis:
+  enabled: true
+
 elasticsearch:
   enabled: true
   #config: # 将 `elasticsearch.enabled` 设置为 `false`则可以使用已经存在的 Elasitcsearch 环境
@@ -251,6 +254,7 @@ elasticsearch:
 
   keystore: []
 
+############################
 
 imagePullSecrets: []
 nameOverride: ""
