@@ -60,3 +60,17 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+wait for elasticsearch is ready to connect.
+*/}}
+{{- define "skywalking.containers.wait-for-es" -}}
+- name: wait-for-elasticsearch
+  image: {{ .Values.initContainer.image }}:{{ .Values.initContainer.tag }}
+  imagePullPolicy: IfNotPresent
+{{- if .Values.elasticsearch.enabled }}
+  command: ['sh', '-c', 'for i in $(seq 1 60); do nc -z -w3 {{ .Values.elasticsearch.clusterName }}-{{ .Values.elasticsearch.nodeGroup }} {{ .Values.elasticsearch.httpPort }} && exit 0 || sleep 5; done; exit 1']
+{{- else }}
+  command: ['sh', '-c', 'for i in $(seq 1 60); do nc -z -w3 {{ .Values.elasticsearch.config.host }} {{ .Values.elasticsearch.config.port.http }} && exit 0 || sleep 5; done; exit 1']
+{{- end }}
+{{- end -}}
