@@ -7,16 +7,18 @@
 - Helm 3.1.0
 - PV provisioner support in the underlying infrastructure
 
-
-
-# dmp-management Chart 使用
-```Work In progress...```
-```shell
+# 获取 DMP Charts
+```bash
 git clone  https://github.com/DaoCloud/dmp-helm-charts.git
 
 cd charts
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo add elastic https://helm.elastic.co
+```
+
+# dmp-management Chart 使用
+```Work In progress...```
+```shell
 
 ```
 
