@@ -18,6 +18,8 @@ spec:
         - name: "{{ .Release.Name }}-dmp-apollo-configservice"
           image: {{ .Values.dmp.apollo.image.cofnigService.repository }}:{{ .Values.dmp.apollo.image.cofnigService.tag }}
           imagePullPolicy: {{ .Values.dmp.apollo.image.cofnigService.pullPolicy }}
+          resources:
+{{ toYaml .Values.dmp.apollo.image.cofnigService.resources | indent 12 }}
           livenessProbe:
             httpGet:
               path: /ping
@@ -71,6 +73,8 @@ spec:
         - image: {{ .Values.dmp.apollo.image.adminService.repository }}:{{ .Values.dmp.apollo.image.adminService.tag }}
           name:  "{{ .Release.Name }}-dmp-apollo-adminservice"
           imagePullPolicy: {{ .Values.dmp.apollo.image.adminService.pullPolicy }}
+          resources:
+{{ toYaml .Values.dmp.apollo.image.adminService.resources | indent 12 }}
           volumeMounts:
             - name: host-time
               mountPath: /etc/localtime

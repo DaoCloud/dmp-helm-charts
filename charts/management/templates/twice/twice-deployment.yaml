@@ -37,12 +37,7 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
           resources:
-            requests:
-              memory: "2048Mi"
-              cpu: "1000m"
-            limits:
-              memory: "2048Mi"
-              cpu: "1000m"
+{{ toYaml .Values.dmp.twice.image.resources | indent 12 }}
           ports:
             - containerPort: 8765
               name: api

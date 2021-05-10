@@ -17,21 +17,21 @@ dmp:
       archUrl: ""
       archEnabled: "false"
     db:
-      url: "dmp-mysql-m.common:3306"
+      url: "dmp-base-mysql.testdmp.svc.cluster.local:3306"
       username: "root"
-      password: "dangerous"
+      password: "6CFdTXYr6h"
     es:
-      url: "http://dmp-es-m.common:9200"
+      url: "http://elasticsearch-master.testdmp.svc.cluster.local:9200"
       username: ""
       password: ""
     redis:
       # redis模式：redis-single/redis-sentinel
-      mode: "redis-single"
-      url: "redis://redispass@dmp-redis-m.common:6379"
+      mode: "redis-sentinel"
+      url: "redis://ScLeIt3GIY@dmp-base-redis-master.testdmp.svc.cluster.local:6379"
       master: "mymaster" # Redis Master name，只有哨兵模式有用
       userName: ""
-      password: "redispass"
-      nodes: "redis-sentinel.dmp-common.svc:26379"
+      password: "ScLeIt3GIY"
+      nodes: "dmp-base-redis-master.testdmp.svc.cluster.local:6379"
     logLevel: "INFO"
     loggingKafkaConfigFile: "" # 配置为 'log4j2-kafka.xml' 开启
     kafkaServers: "127.0.0.1:9092"
@@ -68,7 +68,6 @@ dmp:
         repository: registry.dx.io/dx-pilot/dmp-apollo-config
         tag: 2.5.0  # Must be set explicitly
         pullPolicy: IfNotPresent
-        # TODO: not works?
         resources:
           requests:
             memory: "2048Mi"
@@ -95,7 +94,6 @@ dmp:
       repository: registry.dx.io/dx-pilot/dmp-user-center
       tag: 2.5.0  # Must be set explicitly
       pullPolicy: IfNotPresent
-      # TODO: not works?
       resources:
         requests:
           memory: "2048Mi"
@@ -113,7 +111,6 @@ dmp:
       repository: registry.dx.io/dx-pilot/dmp-fate
       tag: 2.5.0  # Must be set explicitly
       pullPolicy: IfNotPresent
-      # TODO: not works?
       resources:
         requests:
           memory: "2048Mi"
@@ -130,7 +127,6 @@ dmp:
       repository: registry.dx.io/dx-pilot/dmp-twice
       tag: 2.5.0  # Must be set explicitly
       pullPolicy: IfNotPresent
-      # TODO: not works?
       resources:
         requests:
           memory: "2048Mi"
@@ -148,7 +144,6 @@ dmp:
       repository: registry.dx.io/dx-pilot/dmp-sw-query-server
       tag: 2.5.0  # Must be set explicitly
       pullPolicy: IfNotPresent
-      # TODO: not works?
       resources:
         requests:
           memory: "2048Mi"
@@ -165,7 +160,6 @@ dmp:
       repository: registry.dx.io/dx-pilot/dmp-skywalking-oap
       tag: 2.5.0  # Must be set explicitly
       pullPolicy: IfNotPresent
-      # TODO: not works?
       resources:
         limits:
           cpu: "2000m"
@@ -182,7 +176,6 @@ dmp:
       repository: registry.dx.io/dx-pilot/dmp-ui
       tag: 2.5.0  # Must be set explicitly
       pullPolicy: IfNotPresent
-      # TODO: not works?
       resources:
     service:
       type: NodePort

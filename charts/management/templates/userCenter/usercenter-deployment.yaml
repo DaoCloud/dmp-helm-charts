@@ -19,12 +19,7 @@ spec:
           imagePullPolicy: {{ .Values.dmp.userCenter.image.pullPolicy }}
           name: "{{ .Release.Name }}-dmp-user-center"
           resources:
-            requests:
-              memory: "2048Mi"
-              cpu: "1000m"
-            limits:
-              memory: "2048Mi"
-              cpu: "1000m"
+{{ toYaml .Values.dmp.userCenter.image.resources | indent 12 }}
           ports:
             - containerPort: 9050
           envFrom:

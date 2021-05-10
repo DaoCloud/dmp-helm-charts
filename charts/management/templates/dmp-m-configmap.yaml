@@ -3,12 +3,12 @@ kind: ConfigMap
 metadata:
   name: "{{ .Release.Name }}-dmp-admin-configmap"
 data:
-  DCE_URL: {{ .Values.external.dceControllerNodeUrl }}
+  DCE_URL: "{{ .Values.external.dceControllerNodeUrl }}"
 
-  ARCH_CLIENT_ID: {{ .Values.dmp.configmap.dx.archClientId | quote }}
-  ARCH_CLIENT_SECRET: {{ .Values.dmp.configmap.dx.archClientSecret | quote }}
-  ARCH_URL: {{ .Values.dmp.configmap.dx.archUrl | quote }}
-  ARCH_ENABLED: {{ .Values.dmp.configmap.dx.archEnabled }}
+  ARCH_CLIENT_ID: "{{ .Values.dmp.configmap.dx.archClientId }}"
+  ARCH_CLIENT_SECRET: "{{ .Values.dmp.configmap.dx.archClientSecret }}"
+  ARCH_URL: "{{ .Values.dmp.configmap.dx.archUrl }}"
+  ARCH_ENABLED: "{{ .Values.dmp.configmap.dx.archEnabled }}"
 
   ACTIVE_PROFILES: {{ .Values.dmp.configmap.redis.mode }}
 
@@ -27,10 +27,10 @@ data:
   DB_PASSWORD: {{ .Values.dmp.configmap.db.password }}
 
   ES_URL: {{ .Values.dmp.configmap.es.url }}
-  {{ if ne .Values.dmp.configmap.es.username quote }}
+  {{ if ne .Values.dmp.configmap.es.username "" }}
   ES_USERNAME: {{ .Values.dmp.configmap.es.username }}
   {{ end }}
-  {{ if ne .Values.dmp.configmap.es.password quote }}
+  {{ if ne .Values.dmp.configmap.es.password "" }}
   ES_PASSWORD: {{ .Values.dmp.configmap.es.password }}
   {{ end }}
 

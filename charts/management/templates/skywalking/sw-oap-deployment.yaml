@@ -35,12 +35,7 @@ spec:
             - containerPort: 12800
               name: rest
           resources:
-            limits:
-              cpu: "2000m"
-              memory: "4096Mi"
-            requests:
-              cpu: "2000m"
-              memory: "4096Mi"
+{{ toYaml .Values.dmp.skywalkingOap.image.resources | indent 12 }}
           livenessProbe:
             httpGet:
               path: /ping
