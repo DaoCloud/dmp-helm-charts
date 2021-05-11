@@ -15,6 +15,9 @@ spec:
       labels:
         app: "{{ .Release.Name }}-dmp-gateway-{{ .Values.dmp.tenant.code }}"
     spec:
+      volumes:
+        - name: envoy-log
+          emptyDir: {}
       containers:
         - name: "{{ .Release.Name }}-dmp-envoy-{{ .Values.dmp.tenant.code }}"
           image: {{ .Values.dmp.tenant.gateway.image.envoy.repository }}:{{ .Values.dmp.tenant.gateway.image.envoy.tag }}

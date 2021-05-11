@@ -1,9 +1,10 @@
 1. Get the application URL by running these commands:
 恭喜你，你已经成功安装好 DMP Management 管理端，以下几个参数是你完成接下来工作的关键信息：
-DMP Skywalking 地址: "{{ .Release.Name }}-dmp-skywalking-oap".{{ .Release.Namespace }}.svc
+DMP Skywalking 地址: {{ .Release.Name }}-dmp-skywalking-oap.{{ .Release.Namespace }}.svc
 export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ .Release.Name }}-dmp-skywalking-oap" -o jsonpath="{.items[0].metadata.name}")
 echo $POD_NAME
 DMP Skywalking Port:  kubectl get pod --namespace {{ .Release.Namespace }} $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+You can copy and using like: {{ .Release.Name }}-dmp-skywalking-oap.{{ .Release.Namespace }}.svc:11800
 
 {{- if .Values.ingress.enabled }}
 {{- range $host := .Values.ingress.hosts }}

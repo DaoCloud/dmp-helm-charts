@@ -29,18 +29,3 @@ dependencies:
     version: ~7.5.1
     repository: https://helm.elastic.co/
     condition: elasticsearch.enabled
-  - name: mysql
-    version: 8.5.7
-    repository: https://charts.bitnami.com/bitnami
-    condition: mysql.enabled
-  - name: elasticsearch
-    version: ~7.5.1
-    repository: https://helm.elastic.co/
-    condition: elasticsearch.enabled
-  - name: redis
-    version: 14.1.1
-    repository: https://charts.bitnami.com/bitnami # redis Sentinel
-    condition: redis.enabled
-  - name: common
-    version: 1.4.3
-    repository: https://charts.bitnami.com/bitnami

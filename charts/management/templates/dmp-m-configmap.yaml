@@ -8,7 +8,7 @@ data:
   ARCH_CLIENT_ID: "{{ .Values.dmp.configmap.dx.archClientId }}"
   ARCH_CLIENT_SECRET: "{{ .Values.dmp.configmap.dx.archClientSecret }}"
   ARCH_URL: "{{ .Values.dmp.configmap.dx.archUrl }}"
-  ARCH_ENABLED: "{{ .Values.dmp.configmap.dx.archEnabled }}"
+  ARCH_ENABLED: {{ .Values.dmp.configmap.dx.archEnabled | quote }}
 
   ACTIVE_PROFILES: {{ .Values.dmp.configmap.redis.mode }}
 
@@ -40,40 +40,40 @@ data:
   SW_CONFIGURATION: {{ .Values.dmp.configmap.skywalking.configurationType }}
   SW_CLUSTER_K8S_LABEL: {{ .Values.dmp.configmap.skywalking.k8sLabel }}
   ## skywalking链路日志的写入数据包大小
-  SW_STORAGE_ES_BULK_ACTIONS:  {{ .Values.dmp.configmap.skywalking.esBulkActions }}
-  SW_STORAGE_ES_BULK_SIZE: {{ .Values.dmp.configmap.skywalking.esBulkSize }}
+  SW_STORAGE_ES_BULK_ACTIONS:  {{ .Values.dmp.configmap.skywalking.esBulkActions | quote }}
+  SW_STORAGE_ES_BULK_SIZE: {{ .Values.dmp.configmap.skywalking.esBulkSize | quote }}
   ## skywalking链路日志的保存日期
-  SW_CORE_RECORD_DATA_TTL:  {{ .Values.dmp.configmap.skywalking.recordDataTTL }}
-  SW_CORE_METRICS_DATA_TTL: {{ .Values.dmp.configmap.skywalking.metricsDataTTL }}
+  SW_CORE_RECORD_DATA_TTL:  {{ .Values.dmp.configmap.skywalking.recordDataTTL | quote }}
+  SW_CORE_METRICS_DATA_TTL: {{ .Values.dmp.configmap.skywalking.metricsDataTTL | quote }}
 
   ## DMP组件日志通过Kafka写入ES
   {{ if eq .Values.dmp.configmap.loggingKafkaConfigFile "log4j2-kafka.xm" }}
   SW_LOGGING_KAFKA_ENABLED: "true"
   DMP_LOGS_KAFKA_SERVERS: {{ .Values.dmp.configmap.kafkaServers }}
   {{ end }}
-  agent-analyzer.default.slowDBAccessThreshold: {{ .Values.dmp.configmap.skywalking.slowDBAccessThreshold }}
+  agent-analyzer.default.slowDBAccessThreshold: {{ .Values.dmp.configmap.skywalking.slowDBAccessThreshold | quote }}
 
-  SW_STORAGE_ES_INDEX_REPLICAS_NUMBER: {{ .Values.dmp.configmap.skywalking.esIndexReplicasNum }}
+  SW_STORAGE_ES_INDEX_REPLICAS_NUMBER: {{ .Values.dmp.configmap.skywalking.esIndexReplicasNum | quote }}
 
-  DMP_META: {{ .Values.dmp.configmap.apolloConfigService }}
-  USER_CENTER_URL: {{ .Values.dmp.configmap.userCenterUrl }}
-  SKYWALKING_QUERY_URL: {{ .Values.dmp.configmap.swQueryServerUrl }}
-  TRACE_URL: {{ .Values.dmp.configmap.swQueryServerUrl }}
-  CONFIG_CENTER_URL:  {{ .Values.dmp.configmap.configCenterUrl }}
-  FATE_URL: {{ .Values.dmp.configmap.fateUrl }}
-  GATEWAY_URL: {{ .Values.dmp.configmap.twiceUrl }}
+  DMP_META: "http://{{ .Release.Name }}-dmp-apollo-configservice:8080"
+  USER_CENTER_URL: "http://{{ .Release.Name }}-dmp-user-center:9050"
+  SKYWALKING_QUERY_URL:  "http://{{ .Release.Name }}-dmp-sw-query-server:12801"
+  TRACE_URL: "http://{{ .Release.Name }}-dmp-sw-query-server:12801"
+  CONFIG_CENTER_URL:  "http://{{ .Release.Name }}-dmp-apollo-adminservice:8090"
+  FATE_URL: "http://{{ .Release.Name }}-dmp-fate:9056"
+  GATEWAY_URL: "http://{{ .Release.Name }}-dmp-twice:8765"
   MONITOR_URL: {{ .Values.dmp.configmap.fateNodePortUrl }}
-  TWICE_URL: {{ .Values.dmp.configmap.twiceUrl }}
+  TWICE_URL: "http://{{ .Release.Name }}-dmp-twice:8765"
   HELP_URL: {{ .Values.dmp.configmap.helpDocsUrl }}
   # 暂无用途，作为标识
   ENV: dev
-  ADMIN_ENABLE: {{ .Values.dmp.configmap.twiceAdminEnable }}
+  ADMIN_ENABLE: {{ .Values.dmp.configmap.twiceAdminEnable | quote }}
   K8S_SERVER: {{ .Values.external.k8sServer }}
   K8S_TOKEN: {{ .Values.external.k8sToken }}
   DMP_LOGS_LEVEL: {{ .Values.dmp.configmap.logLevel }}
 
   MANAGMENT_NAMESPACE: {{ .Values.dmp.configmap.managmentNamespace }}
-  TENANT_LABEL_NAME: 'dmp.daocloud.io/gateway'
-  SERVICE_LABEL_NAME: 'dmp.daocloud.io/app' # =dmp-gateway- + env code
-  GATEWAY_ENVOY_PORT: '9901'
-  GATEWAY_THOR_PORT: '9876'
+  TENANT_LABEL_NAME: "dmp.daocloud.io/gateway"
+  SERVICE_LABEL_NAME: "dmp.daocloud.io/app" # =dmp-gateway- + env code
+  GATEWAY_ENVOY_PORT: "9901"
+  GATEWAY_THOR_PORT: "9876"

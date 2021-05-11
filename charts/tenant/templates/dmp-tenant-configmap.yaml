@@ -7,10 +7,10 @@ data:
   DX_ENV_ID: {{ required "dmp.tenant.code is required" .Values.dmp.tenant.code }}
   loglevel: {{ .Values.dmp.tenant.envoyLoglevel }}
   DMP_SW_OAP_HOST: {{ .Values.dmp.tenant.envoyLoglevel }}
-  DMP_SW_OAP_PORT: {{ .Values.dmp.tenant.swOapPort }}
+  DMP_SW_OAP_PORT: {{ .Values.dmp.tenant.swOapPort | quote }}
   DMP_TWICE_HOST: {{ .Values.dmp.tenant.twiceHost }}
-  DMP_TWICE_PORT: {{ .Values.dmp.tenant.twicePort }}
+  DMP_TWICE_PORT: {{ .Values.dmp.tenant.twicePort | quote }}
   DX_DMP_ACTUATOR_SERVER: {{ .Values.dmp.tenant.fateServer }}
   FLUENT_ES_ADDR: {{ .Values.dmp.tenant.esHost }}
-  FLUENT_ES_PORT: {{ .Values.dmp.tenant.esPort }}
+  FLUENT_ES_PORT: {{ .Values.dmp.tenant.esPort | quote }}
   KUBE_NS: "{{ .Release.Namespace }}"

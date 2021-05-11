@@ -1,51 +1,35 @@
 mysql:
   enabled: true
   size: 8Gi
+  service:
+    type: NodePort
   image:
     registry: docker.io
-    repository: bitnami/mysql
-    tag: 8.0.24-debian-10-r0
-  volumePermissions:
-    enabled: true
-    image:
-      registry: docker.io
-      repository: bitnami/bitnami-shell
-      tag: "10"
-  primary:
-    persistence:
-      enabled: true
-  secondary:
-    persistence:
-      enabled: true
+    repository: mysql
+    tag: 5.7.32
+  resources:
+    requests:
+      cpu: "1"
+      memory: "2Gi"
+    limits:
+      cpu: "1"
+      memory: "2Gi"
 
 redis:
+  enabled: true
+  service:
+    type: NodePort
   image:
     registry: docker.io
-    repository: bitnami/redis
-    tag: 6.2.3-debian-10-r0
-  volumePermissions:
-    ## @param volumePermissions.enabled Enable init container that changes the owner/group of the PV mount point to `runAsUser:fsGroup`
-    ##
-    enabled: true
-    ## Bitnami Shell image
-    ## ref: https://hub.docker.com/r/bitnami/bitnami-shell/tags/
-    ## @param volumePermissions.image.registry Bitnami Shell image registry
-    ## @param volumePermissions.image.repository Bitnami Shell image repository
-    ## @param volumePermissions.image.tag Bitnami Shell image tag (immutable tags are recommended)
-    ## @param volumePermissions.image.pullPolicy Bitnami Shell image pull policy
-    ## @param volumePermissions.image.pullSecrets Bitnami Shell image pull secrets
-    ##
-    image:
-      registry: docker.io
-      repository: bitnami/bitnami-shell
-      tag: "10"
-  enabled: true
-  master:
-    persistence:
-      enabled: false
-  replica:
-    persistence:
-      enabled: false
+    repository: redis
+    tag: 6.0.9
+  resources:
+    requests:
+      cpu: "0.2"
+      memory: "512Mi"
+    limits:
+      cpu: "0.2"
+      memory: "512Mi"
 
 elasticsearch:
   enabled: true
@@ -112,15 +96,15 @@ elasticsearch:
   # additionals labels
   labels: {}
 
-  esJavaOpts: "-Xmx512m -Xms512m"
+  esJavaOpts: "-Xmx1G -Xms1G"
 
   resources:
     requests:
-      cpu: "0.5m"
-      memory: "1Gi"
+      cpu: "1"
+      memory: "2Gi"
     limits:
-      cpu: "0.5m"
-      memory: "1Gi"
+      cpu: "1"
+      memory: "2Gi"
 
   initResources: {}
     # limits:

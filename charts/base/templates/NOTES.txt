@@ -4,25 +4,20 @@ Tip:
 
 
 1. Mysql  can be accessed on the following DNS names from within your cluster:
-    {{ printf "%s-mysql.%s.svc.%s" .Release.Name .Release.Namespace .Values.mysql.clusterDomain }} for read/write operations (port {{ .Values.mysql.primary.service.port }})
+    {{ printf "%s-dmp-mysql.%s.svc.cluster.local" .Release.Name .Release.Namespace }} for read/write operations (port 3306)
 
     Administrator credentials:
 
     echo Username: root
-    echo Password : $(kubectl get secret --namespace {{ .Release.Namespace }} {{ .Release.Name }}-mysql -o jsonpath="{.data.mysql-root-password}" | base64 --decode)
+    echo Password : dangerous
 
 2. Redis(TM) can be accessed on the following DNS names from within your cluster:
 
-    {{ printf "%s-redis-master.%s.svc.%s" .Release.Name .Release.Namespace .Values.redis.clusterDomain }} for read/write operations (port {{ .Values.redis.master.service.port }})
-    {{ printf "%s-redis-replicas.%s.svc.%s" .Release.Name .Release.Namespace .Values.redis.clusterDomain }} for read-only operations (port {{ .Values.redis.replica.service.port }})
+    {{ printf "%s-dmp-redis.%s.svc.cluster.local" .Release.Name .Release.Namespace }} for read/write operations (port 6379)
 
-    {{ if .Values.redis.auth.enabled }}
-
-    To get your password run:
-
-        export REDIS_PASSWORD=$(kubectl get secret --namespace {{ .Release.Namespace }} {{ .Release.Name }}-redis -o jsonpath="{.data.redis-password}" | base64 --decode)
-
-    {{- end }}
+    Administrator credentials:
+    echo Password : redispass
+    You can copy and using like: redispass@{{ printf "%s-dmp-redis.%s.svc.cluster.local" .Release.Name .Release.Namespace }}:6379
 
 3. Elasticsearch can be accessed on the following DNS names from within your cluster:
     {{ printf "elasticsearch-master.%s.svc.cluster.local" .Release.Namespace }} for read-only operations (port {{ .Values.elasticsearch.httpPort }})

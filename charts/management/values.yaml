@@ -5,10 +5,10 @@
 # DX settings from DX portal
 external:
   # DCE SSO登录，DCE控制节点地址
-  dceControllerNodeUrl: "https://172.16.100.249"
+  dceControllerNodeUrl: "https://10.99.100.199"
   k8sServer: "https://172.31.0.1:443"
   # kubectl get secret -oyaml
-  k8sToken: "ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkltUnVibTFSYUVkbVdtTlBUR2hzZHpVd1dEZE9UVWhhZFdKdlJVZHpaMDV2Y1hOcmFqTnNTM1ZVYUhNaWZRLmV5SnBjM01pT2lKcmRXS********************lleFlqZU9jWS1qMzByNE5jajhiTGYyTlFoczJCX1dhVjM4U1RKN0x2NjVJY1JBaDlFVmdYNmgxa0VNbDlEeUltRzlfSnBOc1N0bGdxclY0ajJTQlJ3bW5SeWxYMGVvQ0FDcnZUNnJwS0xtZm5DbHVuekdlRGh4OHV5Y21FaTd2ZTZMSUh0SmlnaUlSOWxLblZYNVlwYzltZWpJc2t1ajIzT0ZCS293ellVd2c="
+  k8sToken: "ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkltUnVibTFSYUVkbVdtTlBUR2hzZHpVd1dEZE9UVWhhZFdKdlJVZHpaMDV2Y1hOcmFqTnNTM1ZVYUhNaWZRLmV5SnBjM01pT2lKcmRXSmxjbTVsZEdWekwzTmxjblpwWTJWaFkyTnZkVzUwSWl3aWEzVmlaWEp1WlhSbGN5NXBieTl6WlhKMmFXTmxZV05qYjNWdWRDOXVZVzFsYzNCaFkyVWlPaUprWldaaGRXeDBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5elpXTnlaWFF1Ym1GdFpTSTZJbVJ0Y0MxMGIydGxiaTF0WW10eVp5SXNJbXQxWW1WeWJtVjBaWE11YVc4dmMyVnlkbWxqWldGalkyOTFiblF2YzJWeWRtbGpaUzFoWTJOdmRXNTBMbTVoYldVaU9pSmtiWEFpTENKcmRXSmxjbTVsZEdWekxtbHZMM05sY25acFkyVmhZMk52ZFc1MEwzTmxjblpwWTJVdFlXTmpiM1Z1ZEM1MWFXUWlPaUkxTmpWbVpEVmxZUzFpTVdJMUxUUTBZalV0WWpJd05DMWpNREZoTVdFM056bGpNR0lpTENKemRXSWlPaUp6ZVhOMFpXMDZjMlZ5ZG1salpXRmpZMjkxYm5RNlpHVm1ZWFZzZERwa2JYQWlmUS5Pbk0tb3k0NFNEZF82Q0NkZkFDTzZRYWVWRTJ1UmFHM29vVHluUXVpaEcwbXZ2STM2eXNWSzVPZXhBajhhNXA4WTB6VllMMWNYNVk5aTgwb1ZrX3o0d0FLYUVrMzVjMlJGaGZUM2dHeE1KTWtwNW1YTm5aQVBXckZJcDVyamxjYlRKZXBfWkVieVhpX2NIZ3lzVkxyaDRsUW5oeWlRQmswN1VMLU43bGg5VjlleFlqZU9jWS1qMzByNE5jajhiTGYyTlFoczJCX1dhVjM4U1RKN0x2NjVJY1JBaDlFVmdYNmgxa0VNbDlEeUltRzlfSnBOc1N0bGdxclY0ajJTQlJ3bW5SeWxYMGVvQ0FDcnZUNnJwS0xtZm5DbHVuekdlRGh4OHV5Y21FaTd2ZTZMSUh0SmlnaUlSOWxLblZYNVlwYzltZWpJc2t1ajIzT0ZCS293ellVd2c="
 dmp:
   configmap:
     dx:
@@ -17,17 +17,17 @@ dmp:
       archUrl: ""
       archEnabled: "false"
     db:
-      url: "dmp-base-mysql.testdmp.svc.cluster.local:3306"
+      url: "dmp-base-dmp-mysql.testdmp.svc.cluster.local:3306"
       username: "root"
-      password: "6CFdTXYr6h"
+      password: "dangerous"
     es:
       url: "http://elasticsearch-master.testdmp.svc.cluster.local:9200"
       username: ""
       password: ""
     redis:
       # redis模式：redis-single/redis-sentinel
-      mode: "redis-sentinel"
-      url: "redis://ScLeIt3GIY@dmp-base-redis-master.testdmp.svc.cluster.local:6379"
+      mode: "redis-single"
+      url: "redis://redispass@dmp-base-dmp-redis.testdmp.svc.cluster.local:6379"
       master: "mymaster" # Redis Master name，只有哨兵模式有用
       userName: ""
       password: "ScLeIt3GIY"
@@ -35,12 +35,6 @@ dmp:
     logLevel: "INFO"
     loggingKafkaConfigFile: "" # 配置为 'log4j2-kafka.xml' 开启
     kafkaServers: "127.0.0.1:9092"
-    apolloConfigService: "http://dmp-apollo-configservice:8080"
-    userCenterUrl: "http://dmp-user-center:9050"
-    swQueryServerUrl: "http://dmp-sw-query-server:12801"
-    configCenterUrl: "http://dmp-apollo-adminservice:8090"
-    fateUrl: "http://dmp-fate:9056"
-    twiceUrl: "http://dmp-twice:8765"
     #UI使用的变量，写fate的nodeport地址，因为此地址需要访问DMP界面的浏览器本地可访问。
     fateNodePortUrl: "ws://dmp-fate:9056"
     # 帮助手册地址
@@ -62,6 +56,18 @@ dmp:
 
       # 如果ES是单节点则配置为 0
       esIndexReplicasNum: "0"
+  sweet:
+    image:
+      repository: registry.dx.io/dx-pilot/dmp-sweet
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "1024Mi"
+        limits:
+          cpu: "100m"
+          memory: "1024Mi"
   apollo:
     image:
       cofnigService:

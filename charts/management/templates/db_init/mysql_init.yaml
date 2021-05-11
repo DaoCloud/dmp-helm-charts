@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-dmp-db-init"
+spec:
+  template:
+    metadata:
+    spec:
+      restartPolicy: "OnFailure"
+      containers:
+        - name: sweet
+          image: {{ .Values.dmp.sweet.image.repository }}:{{ .Values.dmp.sweet.image.tag }}
+          resources:
+{{ toYaml .Values.dmp.sweet.image.resources | indent 12 }}
+          env:
+            - name: SOURCE
+              value: "0"
+            - name: TARGET
+              value: "2.5.0"
+            - name: TYPE
+              value: "INSTALL"
+            - name: MYSQL_USERNAME
+              value: "root"
+            - name: MYSQL_PASSWORD
+              value: "dangerous"
+            - name: MYSQL_URL
+              value: "{{ .Values.dmp.configmap.db.url }}"

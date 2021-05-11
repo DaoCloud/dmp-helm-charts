@@ -2,12 +2,12 @@ dmp:
   tenant:
     code: "test" # !!! 注意要更改
     envoyLoglevel: "INFO"
-    swOapHost: "dmp-skywalking-oap.dmp-m.svc"
+    swOapHost: "dmp-management-dmp-skywalking-oap.testdmp.svc"
     swOapPort: "11800"
-    twiceHost: "dmp-twice.dmp-m.svc"
+    twiceHost: "dmp-management-dmp-twice.testdmp.svc"
     twicePort: "7000"
-    fateServer: "ws://dmp-fate.dmp-m.svc:9056"
-    esHost: "127.0.0.1"
+    fateServer: "ws://dmp-management-dmp-fate.testdmp.svc:9056"
+    esHost: "elasticsearch-master.testdmp.svc.cluster.local"
     esPort: "9200"
     gateway:
       replicas: 1

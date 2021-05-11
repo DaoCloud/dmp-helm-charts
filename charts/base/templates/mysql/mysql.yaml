@@ -1,0 +1,57 @@
+{{- if .Values.mysql.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-dmp-mysql"
+  labels:
+    app: {{ .Release.Name }}-dmp-mysql
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-dmp-mysql
+  template:
+    metadata:
+      name: {{ .Release.Name }}-dmp-mysql
+      labels:
+        app: {{ .Release.Name }}-dmp-mysql
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: beta.kubernetes.io/os
+                    operator: In
+                    values:
+                      - linux
+      containers:
+        - name: {{ .Release.Name }}-dmp-mysql
+          image: {{ .Values.mysql.image.registry }}/{{ .Values.mysql.image.repository }}:{{ .Values.mysql.image.tag }}
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: 'dangerous'
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+          resources:
+{{ toYaml .Values.mysql.resources | indent 12 }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: "{{ .Release.Name }}-dmp-mysql-pvc"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-dmp-mysql
+  labels:
+    app: {{ .Release.Name }}-dmp-mysql
+spec:
+  type: {{ .Values.mysql.service.type }}
+  ports:
+  - port: 3306
+  selector:
+    app: {{ .Release.Name }}-dmp-mysql
+{{- end }}
