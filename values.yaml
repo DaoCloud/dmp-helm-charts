@@ -1,8 +1,3 @@
 # Default values for dmp-helm-charts.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-
-mysql:
-  storage: local
-  size: 5Gi
-  enabled: false

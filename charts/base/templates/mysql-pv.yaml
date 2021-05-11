@@ -1,4 +1,5 @@
-{{- if .Values.mysql.enabled }}
+{{- if .Values.mysql.primary.persistence.enabled }}
+{{- if .Values.mysql.secondary.persistence.enabled }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -15,5 +16,6 @@ spec:
   hostPath:
     path: /dmp-mysql
     type: DirectoryOrCreate
+{{- end }}
 {{- end }}
 

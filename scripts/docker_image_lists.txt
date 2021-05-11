@@ -1,0 +1,8 @@
+docker.elastic.co/elasticsearch/elasticsearch:7.5.2
+docker.io/bitnami/mysql:8.0.24-debian-10-r0
+docker.io/bitnami/mysqld-exporter:0.12.1-debian-10-r414
+docker.io/bitnami/redis:6.2.3-debian-10-r0
+docker.io/bitnami/redis-sentinel:6.2.2-debian-10-r12
+docker.io/bitnami/redis-exporter:1.23.0-debian-10-r8
+docker.io/bitnami/redis-sentinel-exporter:1.7.1-debian-10-r131
+docker.io/bitnami/bitnami-shell:10

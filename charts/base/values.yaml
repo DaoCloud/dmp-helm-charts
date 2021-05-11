@@ -1,9 +1,51 @@
 mysql:
   enabled: true
   size: 8Gi
+  image:
+    registry: docker.io
+    repository: bitnami/mysql
+    tag: 8.0.24-debian-10-r0
+  volumePermissions:
+    enabled: true
+    image:
+      registry: docker.io
+      repository: bitnami/bitnami-shell
+      tag: "10"
+  primary:
+    persistence:
+      enabled: true
+  secondary:
+    persistence:
+      enabled: true
 
 redis:
+  image:
+    registry: docker.io
+    repository: bitnami/redis
+    tag: 6.2.3-debian-10-r0
+  volumePermissions:
+    ## @param volumePermissions.enabled Enable init container that changes the owner/group of the PV mount point to `runAsUser:fsGroup`
+    ##
+    enabled: true
+    ## Bitnami Shell image
+    ## ref: https://hub.docker.com/r/bitnami/bitnami-shell/tags/
+    ## @param volumePermissions.image.registry Bitnami Shell image registry
+    ## @param volumePermissions.image.repository Bitnami Shell image repository
+    ## @param volumePermissions.image.tag Bitnami Shell image tag (immutable tags are recommended)
+    ## @param volumePermissions.image.pullPolicy Bitnami Shell image pull policy
+    ## @param volumePermissions.image.pullSecrets Bitnami Shell image pull secrets
+    ##
+    image:
+      registry: docker.io
+      repository: bitnami/bitnami-shell
+      tag: "10"
   enabled: true
+  master:
+    persistence:
+      enabled: false
+  replica:
+    persistence:
+      enabled: false
 
 elasticsearch:
   enabled: true
@@ -15,6 +57,14 @@ elasticsearch:
   #  password: ""     # [optional]
   clusterName: "elasticsearch"
   nodeGroup: "master"
+
+  image: "docker.elastic.co/elasticsearch/elasticsearch"
+  imageTag: "7.5.1"
+  imagePullPolicy: "IfNotPresent"
+
+  persistence:
+    enabled: false
+    annotations: {}
 
   # The service that non master groups will try to connect to when joining the cluster
   # This should be set to clusterName + "-" + nodeGroup for your master group
@@ -56,25 +106,21 @@ elasticsearch:
   #    secretName: elastic-certificates
   #    path: /usr/share/elasticsearch/config/certs
 
-  image: "docker.elastic.co/elasticsearch/elasticsearch"
-  imageTag: "7.5.1"
-  imagePullPolicy: "IfNotPresent"
-
   podAnnotations: {}
   # iam.amazonaws.com/role: es-cluster
 
   # additionals labels
   labels: {}
 
-  esJavaOpts: "-Xmx2g -Xms2g"
+  esJavaOpts: "-Xmx512m -Xms512m"
 
   resources:
     requests:
-      cpu: "1000m"
-      memory: "4Gi"
+      cpu: "0.5m"
+      memory: "1Gi"
     limits:
-      cpu: "1000m"
-      memory: "4Gi"
+      cpu: "0.5m"
+      memory: "1Gi"
 
   initResources: {}
     # limits:
@@ -122,9 +168,7 @@ elasticsearch:
         - configMap
         - persistentVolumeClaim
 
-  persistence:
-    enabled: false
-    annotations: {}
+
 
   extraVolumes: ""
     # - name: extras
