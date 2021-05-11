@@ -19,8 +19,8 @@ dmp:
           tag: develop-7074d4b  # Must be set explicitly
           pullPolicy: IfNotPresent
         fluentd:
-          repository: registry.dx.io/dx-pilot/twice-envoy-fluentd
-          tag: develop-c57fd44  # Must be set explicitly
+          repository: registry.dx.io/dx-pilot/dmp-fluentd
+          tag: develop-f488ed2  # Must be set explicitly
           pullPolicy: IfNotPresent
         thor:
           repository: registry.dx.io/dx-pilot/dmp-thor
