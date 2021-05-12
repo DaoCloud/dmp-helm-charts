@@ -28,6 +28,7 @@ dmp:
       # redis模式：redis-single/redis-sentinel
       mode: "redis-single"
       url: "redis://redispass@dmp-base-dmp-redis.testdmp.svc.cluster.local:6379"
+      # redis-sentinel 模式
       master: "mymaster" # Redis Master name，只有哨兵模式有用
       userName: ""
       password: "ScLeIt3GIY"
@@ -41,13 +42,10 @@ dmp:
     helpDocsUrl: "https://guide.daocloud.io/dmp-2.4"
     twiceAdminEnable: "true"
     ##############################################
-    # Health Check
-    managmentNamespace: "dmp-m"
     skywalking:
       cluster: "kubernetes"
       storageType: "elasticsearch7"
       configurationType: "k8s-configmap"
-      k8sLabel: "app=dmp-skywalking-oap"
       esBulkActions: "1000"
       esBulkSize: "10"
       recordDataTTL: "45" #链路数据保存周期，单位是天，此处代表 45天
