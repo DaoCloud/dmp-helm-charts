@@ -6,6 +6,5 @@ spec:
   type: {{ .Values.dmp.ui.service.type }}
   ports:
     - port: 80
-      nodePort: 31250
   selector:
     dx.daocloud.io/service-name: dmp-ui

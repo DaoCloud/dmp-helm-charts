@@ -2,13 +2,14 @@ dmp:
   tenant:
     code: "test" # !!! 注意要更改
     envoyLoglevel: "INFO"
-    swOapHost: "dmp-skywalking-oap.dmp-m.svc"
+    swOapHost: "my-dmp-management-release-dmp-skywalking-oap.testdmp.svc"
     swOapPort: "11800"
-    twiceHost: "dmp-twice.dmp-m.svc"
+    twiceHost: "my-dmp-management-release-dmp-twice.testdmp.svc"
     twicePort: "7000"
-    fateServer: "ws://dmp-fate.dmp-m.svc:9056"
-    esHost: "127.0.0.1"
+    fateServer: "ws://10.99.100.106:32354"
+    esHost: "elasticsearch-master.testdmp.svc"
     esPort: "9200"
+    adminIP: "0.0.0.0"
     gateway:
       replicas: 1
       service:
@@ -19,8 +20,8 @@ dmp:
           tag: develop-7074d4b  # Must be set explicitly
           pullPolicy: IfNotPresent
         fluentd:
-          repository: registry.dx.io/dx-pilot/twice-envoy-fluentd
-          tag: develop-c57fd44  # Must be set explicitly
+          repository: registry.dx.io/dx-pilot/dmp-fluentd
+          tag: develop-f488ed2  # Must be set explicitly
           pullPolicy: IfNotPresent
         thor:
           repository: registry.dx.io/dx-pilot/dmp-thor

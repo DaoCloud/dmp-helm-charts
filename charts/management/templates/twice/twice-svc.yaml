@@ -6,10 +6,8 @@ spec:
   type: {{ .Values.dmp.twice.service.type }}
   ports:
     - port: 8765
-      nodePort: 31258
       name: api
     - port: 7000
-      nodePort: 31259
       name: gateway
   selector:
     dx.daocloud.io/service-name: dmp-twice

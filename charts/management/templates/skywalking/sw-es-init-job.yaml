@@ -29,6 +29,14 @@ spec:
         env:
         - name: JAVA_OPTS
           value: "{{ .Values.dmp.skywalkingOap.javaOpts }} -Dmode=init"
+        - name: SW_CLUSTER_K8S_NAMESPACE
+          value: {{ .Release.Namespace }}
+        - name: SW_CLUSTER_K8S_LABEL
+          value: "app={{ .Release.Name }}-dmp-skywalking-oap"
+        - name: SKYWALKING_COLLECTOR_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: 'metadata.uid'
         envFrom:
           - configMapRef:
               name: "{{ .Release.Name }}-dmp-admin-configmap"

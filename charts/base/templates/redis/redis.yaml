@@ -1,0 +1,61 @@
+{{- if .Values.redis.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-dmp-redis"
+  labels:
+    app: "{{ .Release.Name }}-dmp-redis"
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-dmp-redis"
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-dmp-redis"
+      labels:
+        app: "{{ .Release.Name }}-dmp-redis"
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: beta.kubernetes.io/os
+                    operator: In
+                    values:
+                      - linux
+      containers:
+      - name: "{{ .Release.Name }}-dmp-redis"
+        image: {{ .Values.redis.image.registry }}/{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}
+        args:
+          - redis-server
+          - '--requirepass'
+          - redispass
+        ports:
+          - containerPort: 6379
+            protocol: TCP
+        volumeMounts:
+          - name: host-time
+            readOnly: true
+            mountPath: /etc/localtime
+        resources:
+{{ toYaml .Values.redis.resources | indent 10 }}
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
+            type: ''
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Release.Name }}-dmp-redis"
+  labels:
+    app: "{{ .Release.Name }}-dmp-redis"
+spec:
+  type: {{ .Values.redis.service.type }}
+  ports:
+  - port: 6379
+  selector:
+    app: "{{ .Release.Name }}-dmp-redis"
+{{- end }}

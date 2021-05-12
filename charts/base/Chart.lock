@@ -2,17 +2,5 @@ dependencies:
 - name: elasticsearch
   repository: https://helm.elastic.co/
   version: 7.5.2
-- name: mysql
-  repository: https://charts.bitnami.com/bitnami
-  version: 8.5.7
-- name: elasticsearch
-  repository: https://helm.elastic.co/
-  version: 7.5.2
-- name: redis
-  repository: https://charts.bitnami.com/bitnami
-  version: 14.1.1
-- name: common
-  repository: https://charts.bitnami.com/bitnami
-  version: 1.4.3
-digest: sha256:9f44b7c2331e1249b09c73167e0d26546dfcaea8b90d2c62ec748ee30fcd8aab
-generated: "2021-05-09T12:44:32.706828+08:00"
+digest: sha256:679425d92c189a20c0b9aec841b4f941a4dc974d02301386466e50ff5560a059
+generated: "2021-05-12T13:53:41.715487+08:00"

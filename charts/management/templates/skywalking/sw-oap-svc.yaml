@@ -6,10 +6,8 @@ spec:
   type: {{ .Values.dmp.skywalkingOap.service.type }}
   ports:
     - port: 12800
-      nodePort: 30264
       name: rest
     - port: 11800
-      nodePort: 30265
       name: grpc
   selector:
     app: "{{ .Release.Name }}-dmp-skywalking-oap"

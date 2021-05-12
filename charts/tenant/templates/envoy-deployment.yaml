@@ -4,6 +4,9 @@ metadata:
   name: "{{ .Release.Name }}-dmp-gateway-{{ .Values.dmp.tenant.code }}"
   labels:
     app: "{{ .Release.Name }}-dmp-gateway-{{ .Values.dmp.tenant.code }}"
+    # health check labels.
+    dmp.daocloud.io/app: "dmp-gateway-{{ .Values.dmp.tenant.code }}"
+    dmp.daocloud.io/gateway: "{{ .Values.dmp.tenant.code }}"
 spec:
   replicas: {{ .Values.dmp.tenant.gateway.replicas }}
   selector:
@@ -15,6 +18,9 @@ spec:
       labels:
         app: "{{ .Release.Name }}-dmp-gateway-{{ .Values.dmp.tenant.code }}"
     spec:
+      volumes:
+        - name: envoy-log
+          emptyDir: {}
       containers:
         - name: "{{ .Release.Name }}-dmp-envoy-{{ .Values.dmp.tenant.code }}"
           image: {{ .Values.dmp.tenant.gateway.image.envoy.repository }}:{{ .Values.dmp.tenant.gateway.image.envoy.tag }}
