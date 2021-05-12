@@ -33,7 +33,7 @@ $ helm install my-dmp-base-release base -n <namespace>
 ```bash
 $ pwd
 dmp-helm-charts/charts/
-$ helm uninstall my-dmp-base-release base -n <namespace>
+$ helm uninstall my-dmp-base-release -n <namespace>
 ```
 
 ## 配置

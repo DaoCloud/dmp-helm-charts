@@ -1,5 +1,5 @@
-# management Chart 使用说明
-management 需要链接 Mysql,Redis,Elasticsearch 中间件，因此须确保 DMP management 所需中间件均已安装且使用正常。
+# tenant Chart 使用
+tenant 需要链接 Elasticsearch 中间件与 management 相关组件，因此须确保 DMP 中间件 与 management 均已安装且使用正常。
 如果你才用的是 `base chart` 安装的 DMP 中间件，你可以在 `helm install`安装的时候查看控制台输出，得到链接信息，如下所示：
 
 ```console
@@ -23,26 +23,27 @@ management 需要链接 Mysql,Redis,Elasticsearch 中间件，因此须确保 DM
 ···
 ```
 
-## 安装 management
+## 安装 tenant
 
 注意：拷贝 [values.yaml](./values.yaml) 配置文件并指定配置文件。
 
 ```bash
 $ pwd
-dmp-helm-charts/charts/management/
+dmp-helm-charts/charts/tenant/
 cp values.yaml values-myrelease.yaml
 ```
 
 ```bash
 $ pwd
 dmp-helm-charts/charts/
-$ helm install my-dmp-base-release management -n <namespace> -f values-myrelease.yaml
+$ helm install my-dmp-tenant-release tenant -n <namespace> -f values-myrelease.yaml
 ```
 
 ## 卸载
 ```bash
 $ pwd
 dmp-helm-charts/charts/
-$ helm uninstall my-dmp-base-release management -n <namespace>
+$ helm uninstall my-dmp-tenant-release -n <namespace>
 ```
+
 

@@ -20,13 +20,12 @@
 ```bash
 $ git clone  https://github.com/DaoCloud/dmp-helm-charts.git
 $ cd dmp-helm-charts/
-$ helm repo add bitnami https://charts.bitnami.com/bitnami
 $ helm repo add elastic https://helm.elastic.co
 ```
 
-### base Chart 安装 DMP 中间件请参考[charts/base](charts/base/REDEME.md)[如果中间件已经安装好，可以跳过此步骤]
+### base Chart 安装 DMP 中间件请参考[charts/base](charts/base/README.md)[如果中间件已经安装好，可以跳过此步骤]
 
-### management Chart 使用请参考：[charts/management](charts/management/REDEME.md)
+### management Chart 使用请参考：[charts/management](charts/management/README.md)
 
-### tenant Chart 使用请参考：[charts/management](charts/management/REDEME.md)
+### tenant Chart 使用请参考：[charts/management](charts/management/README.md)
 
