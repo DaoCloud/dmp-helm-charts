@@ -14,3 +14,5 @@ data:
   FLUENT_ES_ADDR: {{ .Values.dmp.tenant.esHost }}
   FLUENT_ES_PORT: {{ .Values.dmp.tenant.esPort | quote }}
   KUBE_NS: "{{ .Release.Namespace }}"
+  ADMIN_IP: {{ .Values.dmp.tenant.adminIP }}
+  
