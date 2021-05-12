@@ -9,6 +9,7 @@ dmp:
     fateServer: "ws://dmp-management-dmp-fate.testdmp.svc:9056"
     esHost: "elasticsearch-master.testdmp.svc.cluster.local"
     esPort: "9200"
+    adminIP: "0.0.0.0"
     gateway:
       replicas: 1
       service:
