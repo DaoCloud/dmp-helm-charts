@@ -17,17 +17,17 @@ dmp:
       archUrl: ""
       archEnabled: "false"
     db:
-      url: "dmp-base-dmp-mysql.testdmp.svc.cluster.local:3306"
+      url: "my-dmp-base-release-dmp-mysql.testdmp.svc.cluster.local:3306"
       username: "root"
       password: "dangerous"
     es:
-      url: "http://elasticsearch-master.testdmp.svc.cluster.local:9200"
+      url: "http://elasticsearch-master.testdmp.svc:9200"
       username: ""
       password: ""
     redis:
       # redis模式：redis-single/redis-sentinel
       mode: "redis-single"
-      url: "redis://redispass@dmp-base-dmp-redis.testdmp.svc.cluster.local:6379"
+      url: "redis://redispass@my-dmp-base-release-dmp-redis.testdmp.svc.cluster.local:6379"
       # redis-sentinel 模式
       master: "mymaster" # Redis Master name，只有哨兵模式有用
       userName: ""

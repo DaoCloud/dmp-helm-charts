@@ -26,6 +26,6 @@ appVersion: "1.16.0"
 # dmp dependencies
 dependencies:
   - name: elasticsearch
-    version: ~7.5.1
+    version: 7.5.2
     repository: https://helm.elastic.co/
     condition: elasticsearch.enabled
