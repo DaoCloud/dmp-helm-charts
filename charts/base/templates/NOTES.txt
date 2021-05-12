@@ -2,6 +2,7 @@ Tip:
 
   Watch the deployment status using the command: kubectl get pods -w --namespace {{ .Release.Namespace }}
 
+{{- if .Values.mysql.enabled }}
 
 1. Mysql  can be accessed on the following DNS names from within your cluster:
     {{ printf "%s-dmp-mysql.%s.svc.cluster.local" .Release.Name .Release.Namespace }} for read/write operations (port 3306)
@@ -11,6 +12,10 @@ Tip:
     echo Username: root
     echo Password : dangerous
 
+{{- end }}
+
+{{- if .Values.redis.enabled }}
+
 2. Redis(TM) can be accessed on the following DNS names from within your cluster:
 
     {{ printf "%s-dmp-redis.%s.svc.cluster.local" .Release.Name .Release.Namespace }} for read/write operations (port 6379)
@@ -19,6 +24,12 @@ Tip:
     echo Password : redispass
     You can copy and using like: redispass@{{ printf "%s-dmp-redis.%s.svc.cluster.local" .Release.Name .Release.Namespace }}:6379
 
+{{- end }}
+
+{{- if .Values.elasticsearch.enabled }}
+
 3. Elasticsearch can be accessed on the following DNS names from within your cluster:
     {{ printf "elasticsearch-master.%s.svc.cluster.local" .Release.Namespace }} for read-only operations (port {{ .Values.elasticsearch.httpPort }})
      Watch all cluster members come up: kubectl get pods --namespace={{ .Release.Namespace }} -l app=elasticsearch-master -w
+
+{{- end }}
