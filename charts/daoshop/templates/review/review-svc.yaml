@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-daoshop-review
+spec:
+  type: NodePort
+  ports:
+    - port: 8000
+  selector:
+    app: {{ .Release.Name }}-daoshop-review

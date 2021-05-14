@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-daoshop-like"
+  labels:
+    app: {{ .Release.Name }}-daoshop-like
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-daoshop-like
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-daoshop-like
+        dx.daocloud.io/env-id: {{ .Values.tenant.code }}
+        dx.daocloud.io/service-name: {{ .Release.Name }}-daoshop-like
+    spec:
+      containers:
+        - image: {{ .Values.daoshop.like.image.repository }}:{{ .Values.daoshop.like.image.tag }}
+          name: "{{ .Release.Name }}-daoshop-like"
+          resources:
+{{ toYaml .Values.daoshop.like.image.resources | indent 12 }}
+          ports:
+            - containerPort: 1280
+          env:
+            - name: SERVICE_INSTANCE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: DX_SERVICE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: 'metadata.labels[''dx.daocloud.io/service-name'']'
+            - name: DX_ENV_ID
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: 'metadata.labels[''dx.daocloud.io/env-id'']'
+            - name: SW_AGENT_KUBE_NS
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          envFrom:
+            - configMapRef:
+                name: "{{ .Release.Name }}-daoshop-config-{{ .Values.tenant.code }}"
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+              readOnly: true
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime
