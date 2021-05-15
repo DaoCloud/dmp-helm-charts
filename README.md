@@ -7,9 +7,10 @@
     ├── base       # 用于部署 DMP 所需的中间件
     ├── management # 用于部署 DMP 管理段组件
     └── tenant     # 用于部署 DMP 租户端组件
+    └── daoshop    # 用于部署演示接入 DMP 的 Demo
 ```
 
-分为 **base** , **dmp-management**  和 **dmp-tenant** 三个 Chart, 你可以在部署的时候分开选择性的部署。
+分为 **base** , **dmp-management** , **dmp-tenant** 和 **daoshop** 四个 Chart, 你可以在部署的时候分开选择性的部署。
 
 ## 前置条件(Prerequisites)
 - Kubernetes 1.12+
@@ -28,4 +29,6 @@ $ helm repo add elastic https://helm.elastic.co
 ### management Chart 使用请参考：[charts/management](charts/management/README.md)
 
 ### tenant Chart 使用请参考：[charts/management](charts/management/README.md)
+
+### daoshop Chart 使用请参考：[charts/management](charts/daoshop/README.md)
 

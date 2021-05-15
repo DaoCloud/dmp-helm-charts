@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Release.Name }}-daoshop-config-{{ .Values.tenant.code }}"
+data:
+  DX_DMP_ACTUATOR_SERVER: "{{ .Values.tenant.fateWsServer }}"
+  JAVA_OPTS: "-javaagent:/sidecar/sidecar/skywalking/agent/skywalking-agent.jar -javaagent:/sidecar/sidecar/vedfolnir/vedfolnir-agent.jar"
+  BASE_URL: "{{ .Values.tenant.gatewayUrl }}"
+  OAP_SERVER: "{{ .Values.tenant.skywalkingOapRest }}"
+  DX_DMP_TRACING_SERVER: "{{ .Values.tenant.skywalkingOapGrpc }}"
+  APOLLO_CONFIGSERVICE: "{{ .Values.tenant.configServiceUrl }}"
+
+  APP_ID: "{{ .Values.tenant.configAppId }}"
+  DAOSHOP_LIKE_SERVER: "http://{{ .Release.Name }}-daoshop-like:1280"
+
+

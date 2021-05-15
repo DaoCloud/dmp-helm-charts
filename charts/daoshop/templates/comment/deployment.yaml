@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-daoshop-comment"
+  labels:
+    app: {{ .Release.Name }}-daoshop-comment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-daoshop-comment
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-daoshop-comment
+        dx.daocloud.io/env-id: {{ .Values.tenant.code }}
+        dx.daocloud.io/service-name: {{ .Release.Name }}-daoshop-comment
+    spec:
+      containers:
+        - image: {{ .Values.daoshop.comment.image.repository }}:{{ .Values.daoshop.comment.image.tag }}
+          name: "{{ .Release.Name }}-daoshop-comment"
+          resources:
+{{ toYaml .Values.daoshop.comment.image.resources | indent 12 }}
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SERVICE_INSTANCE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: DX_SERVICE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: 'metadata.labels[''dx.daocloud.io/service-name'']'
+            - name: DX_ENV_ID
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: 'metadata.labels[''dx.daocloud.io/env-id'']'
+            - name: SW_AGENT_KUBE_NS
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          envFrom:
+            - configMapRef:
+                name: "{{ .Release.Name }}-daoshop-config-{{ .Values.tenant.code }}"
+          volumeMounts:
+            - name: host-time
+              mountPath: /etc/localtime
+              readOnly: true
+      volumes:
+        - name: host-time
+          hostPath:
+            path: /etc/localtime

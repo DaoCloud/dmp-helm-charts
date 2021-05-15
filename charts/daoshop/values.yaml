@@ -1,0 +1,166 @@
+# Default values for daoshop.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+tenant:
+  code: "test"
+  # nodeport 暴露的地址
+  fateWsServer: "ws://10.99.100.106:31200"
+  gatewayUrl: "my-dmp-tenant-release-dmp-gateway-test:10000"
+  # ui 探针接入所需
+  skywalkingOapRest: "my-dmp-management-release-dmp-skywalking-oap:12800"
+  # 后端探针接入所需
+  skywalkingOapGrpc: "my-dmp-management-release-dmp-skywalking-oap:11800"
+  configServiceUrl: "http://my-dmp-management-release-dmp-apollo-configservice:8080"
+  # admin 服务链接 apollo 拉取配置的 appid
+  configAppId: "test.daoshop"
+daoshop:
+  ui:
+    image:
+      repository: registry.dx.io/dx-pilot/daoshop-ui
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "1024Mi"
+        limits:
+          cpu: "500m"
+          memory: "1024Mi"
+  product:
+    image:
+      repository: registry.dx.io/dx-pilot/daoshop-product
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      resources:
+        requests:
+          memory: "1024Mi"
+          cpu: "500m"
+        limits:
+          memory: "1024Mi"
+          cpu: "500m"
+  order:
+    image:
+      repository: registry.dx.io/dx-pilot/daoshop-order
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      resources:
+        requests:
+          memory: "2048Mi"
+          cpu: "500m"
+        limits:
+          memory: "2048Mi"
+          cpu: "500m"
+  userCenter:
+    image:
+      repository: registry.dx.io/dx-pilot/daoshop-user-center
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      resources:
+        requests:
+          memory: "2048Mi"
+          cpu: "500m"
+        limits:
+          memory: "2048Mi"
+          cpu: "500m"
+  admin:
+    image:
+      repository: registry.dx.io/dx-pilot/daoshop-admin
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      resources:
+        requests:
+          memory: "2048Mi"
+          cpu: "500m"
+        limits:
+          memory: "2048Mi"
+          cpu: "500m"
+  review:
+    image:
+      repository: registry.dx.io/dx-pilot/daoshop-review
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      resources:
+        requests:
+          memory: "1024Mi"
+          cpu: "500m"
+        limits:
+          memory: "1024Mi"
+          cpu: "500m"
+  comment:
+    image:
+      repository: registry.dx.io/dx-pilot/daoshop-comment
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      resources:
+        requests:
+          memory: "1024Mi"
+          cpu: "500m"
+        limits:
+          memory: "1024Mi"
+          cpu: "500m"
+  like:
+    image:
+      repository: registry.dx.io/dx-pilot/daoshop-like
+      tag: 2.5.0  # Must be set explicitly
+      pullPolicy: IfNotPresent
+      resources:
+        requests:
+          memory: "1024Mi"
+          cpu: "500m"
+        limits:
+          memory: "1024Mi"
+          cpu: "500m"
+sidecar:
+  image:
+    repository: registry.dx.io/dx-pilot/dx-monitor-agent-sidecar
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "2.5.0"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
