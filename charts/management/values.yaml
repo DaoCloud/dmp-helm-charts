@@ -17,22 +17,22 @@ dmp:
       archUrl: ""
       archEnabled: "false"
     db:
-      url: "my-dmp-base-release-dmp-mysql.testdmp.svc:3306"
+      url: "dmp-base-release-dmp-mysql.dmp.svc:3306"
       username: "root"
       password: "dangerous"
     es:
-      url: "http://elasticsearch-master.testdmp.svc:9200"
+      url: "http://elasticsearch-master.dmp.svc:9200"
       username: ""
       password: ""
     redis:
       # redis模式：redis-single/redis-sentinel
       mode: "redis-single"
-      url: "redis://redispass@my-dmp-base-release-dmp-redis.testdmp.svc.cluster.local:6379"
+      url: "redis://redispass@dmp-base-release-dmp-redis.dmp.svc.cluster.local:6379"
       # redis-sentinel 模式
       master: "mymaster" # Redis Master name，只有哨兵模式有用
       userName: ""
       password: "ScLeIt3GIY"
-      nodes: "dmp-base-redis-master.testdmp.svc.cluster.local:6379"
+      nodes: "dmp-base-redis-master.dmp.svc.cluster.local:6379"
     logLevel: "INFO"
     loggingKafkaConfigFile: "" # 配置为 'log4j2-kafka.xml' 开启
     kafkaServers: "127.0.0.1:9092"

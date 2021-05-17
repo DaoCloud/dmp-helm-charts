@@ -5,12 +5,12 @@ tenant:
   code: "test"
   # nodeport 暴露的地址
   fateWsServer: "ws://10.99.100.106:31200"
-  gatewayUrl: "my-dmp-tenant-release-dmp-gateway-test:10000"
+  gatewayUrl: "dmp-tenant-release-dmp-gateway-test:10000"
   # ui 探针接入所需
-  skywalkingOapRest: "my-dmp-management-release-dmp-skywalking-oap:12800"
+  skywalkingOapRest: "dmp-management-release-dmp-skywalking-oap:12800"
   # 后端探针接入所需
-  skywalkingOapGrpc: "my-dmp-management-release-dmp-skywalking-oap:11800"
-  configServiceUrl: "http://my-dmp-management-release-dmp-apollo-configservice:8080"
+  skywalkingOapGrpc: "dmp-management-release-dmp-skywalking-oap:11800"
+  configServiceUrl: "http://dmp-management-release-dmp-apollo-configservice:8080"
   # admin 服务链接 apollo 拉取配置的 appid
   configAppId: "test.daoshop"
 daoshop:

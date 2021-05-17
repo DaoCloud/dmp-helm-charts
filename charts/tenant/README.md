@@ -27,23 +27,26 @@ tenant 需要链接 Elasticsearch 中间件与 management 相关组件，因此�
 
 注意：拷贝 [values.yaml](./values.yaml) 配置文件并指定配置文件。
 
+#### 使用自定义配置
 ```bash
 $ pwd
 dmp-helm-charts/charts/tenant/
 cp values.yaml values-myrelease.yaml
 ```
 
+#### 使用默认配置安装
 ```bash
 $ pwd
 dmp-helm-charts/charts/
-$ helm install my-dmp-tenant-release tenant -n <namespace> -f values-myrelease.yaml
+$ kubectl craate ns dmp
+$ helm install dmp-tenant-release tenant -n dmp -f values.yaml
 ```
 
 ## 卸载
 ```bash
 $ pwd
 dmp-helm-charts/charts/
-$ helm uninstall my-dmp-tenant-release -n <namespace>
+$ helm uninstall dmp-tenant-release -n <namespace>
 ```
 
 
