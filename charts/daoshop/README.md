@@ -1,7 +1,6 @@
 # Daoshop Helm Chart
 
 Daoshop 需要链接 management chart 中的组件 management 均已安装且使用正常。
-如果你才用的是 `base chart` 安装的 DMP 中间件，你可以在 `helm install`安装的时候查看控制台输出，得到链接信息，如下所示：
 
 ## 安装 Daoshop
 
