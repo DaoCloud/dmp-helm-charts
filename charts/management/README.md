@@ -33,10 +33,12 @@ dmp-helm-charts/charts/management/
 cp values.yaml values-myrelease.yaml
 ```
 
+#### 使用默认配置安装
 ```bash
 $ pwd
 dmp-helm-charts/charts/
-$ helm install my-dmp-management-release management -n <namespace> -f values-myrelease.yaml
+$ kubectl create ns dmp
+$ helm install dmp-management-release management -n dmp -f values.yaml
 ```
 
 ## 卸载

@@ -22,10 +22,13 @@ Downloading redis from repo https://charts.bitnami.com/bitnami
 Deleting outdated charts
 ```
 ## 安装中间件，默认会安装 Mysql、Elasticsearch、Redis
+
+#### 使用默认配置安装
 ```bash
 $ pwd
 dmp-helm-charts/charts/
-$ helm install my-dmp-base-release base -n <namespace>
+$ kubectl create ns dmp
+$ helm install dmp-base-release base -n dmp
 ###
 ```
 
@@ -33,7 +36,7 @@ $ helm install my-dmp-base-release base -n <namespace>
 ```bash
 $ pwd
 dmp-helm-charts/charts/
-$ helm uninstall my-dmp-base-release -n <namespace>
+$ helm uninstall dmp-base-release -n <namespace>
 ```
 
 ## 配置
