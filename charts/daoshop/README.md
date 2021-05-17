@@ -27,5 +27,3 @@ $ pwd
 dmp-helm-charts/charts/
 $ helm uninstall my-daoshop -n <namespace>
 ```
-
-

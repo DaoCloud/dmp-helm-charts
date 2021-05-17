@@ -29,7 +29,6 @@ $ pwd
 dmp-helm-charts/charts/
 $ kubectl create ns dmp
 $ helm install dmp-base-release base -n dmp
-###
 ```
 
 ## 卸载
