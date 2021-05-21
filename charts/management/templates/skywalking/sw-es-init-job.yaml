@@ -19,6 +19,7 @@ spec:
         component: "{{ .Release.Name }}-dmp-skywalking-job"
         release: {{ .Release.Name }}
     spec:
+      serviceAccountName: "{{ .Release.Name }}-dmp-skywalking-oap-serviceaccount"
       restartPolicy: Never
       containers:
       - name: "{{ .Release.Name }}-dmp-skywalking-job"
