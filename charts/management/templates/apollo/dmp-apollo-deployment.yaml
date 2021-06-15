@@ -43,7 +43,7 @@ spec:
               name: configservice
           envFrom:
             - configMapRef:
-                name: "{{ .Release.Name }}-dmp-admin-configmap"
+                name: "{{ .Release.Name }}-dmp-config-common"
           volumeMounts:
             - name: host-time
               mountPath: /etc/localtime

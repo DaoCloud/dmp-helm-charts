@@ -24,7 +24,7 @@ spec:
             - containerPort: 9050
           envFrom:
             - configMapRef:
-                name: "{{ .Release.Name }}-dmp-admin-configmap"
+                name: "{{ .Release.Name }}-dmp-config-common"
           livenessProbe:
             tcpSocket:
               port: 8998

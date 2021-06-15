@@ -45,7 +45,9 @@ spec:
               name: gateway
           envFrom:
             - configMapRef:
-                name: "{{ .Release.Name }}-dmp-admin-configmap"
+                name: "{{ .Release.Name }}-dmp-config-common"
+            - configMapRef:
+                name: "{{ .Release.Name }}-dmp-config-twice"
           volumeMounts:
             - name: host-time
               mountPath: /etc/localtime

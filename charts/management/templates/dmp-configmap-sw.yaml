@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: "{{ .Release.Name }}-dmp-skywalking-oap"
+  name: "{{ .Release.Name }}-dmp-config-sw"
+data:
+  SW_CLUSTER: {{ .Values.dmp.configmap.skywalking.cluster }}
+
+  SW_STORAGE: {{ .Values.dmp.configmap.skywalking.storageType }}
+  SW_CONFIGURATION: {{ .Values.dmp.configmap.skywalking.configurationType }}
+  SW_CLUSTER_K8S_LABEL: "app={{ .Release.Name }}-dmp-skywalking-oap"
+  ## skywalking链路日志的写入数据包大小
+  SW_STORAGE_ES_BULK_ACTIONS:  {{ .Values.dmp.configmap.skywalking.esBulkActions | quote }}
+  SW_STORAGE_ES_BULK_SIZE: {{ .Values.dmp.configmap.skywalking.esBulkSize | quote }}
+  ## skywalking链路日志的保存日期
+  SW_CORE_RECORD_DATA_TTL:  {{ .Values.dmp.configmap.skywalking.recordDataTTL | quote }}
+  SW_CORE_METRICS_DATA_TTL: {{ .Values.dmp.configmap.skywalking.metricsDataTTL | quote }}
+
+  SW_LOGGING_KAFKA_ENABLED: "false"
+  SW_STORAGE_ES_INDEX_REPLICAS_NUMBER: {{ .Values.dmp.configmap.skywalking.esIndexReplicasNum | quote }}

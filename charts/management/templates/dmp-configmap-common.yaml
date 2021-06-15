@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: "{{ .Release.Name }}-dmp-skywalking-oap"
+  name: "{{ .Release.Name }}-dmp-config-common"
+data:
+  DCE_URL: "{{ .Values.external.dceControllerNodeUrl }}"
+
+  ARCH_CLIENT_ID: "{{ .Values.dmp.configmap.dx.archClientId }}"
+  ARCH_CLIENT_SECRET: "{{ .Values.dmp.configmap.dx.archClientSecret }}"
+  ARCH_URL: "{{ .Values.dmp.configmap.dx.archUrl }}"
+  ARCH_ENABLED: {{ .Values.dmp.configmap.dx.archEnabled | quote }}
+
+  ACTIVE_PROFILES: {{ .Values.dmp.configmap.redis.mode }}
+
+  {{ if eq .Values.dmp.configmap.redis.mode "redis-single"}}
+  REDIS_URL: {{ .Values.dmp.configmap.redis.url }}
+  {{ end }}
+
+  {{ if eq .Values.dmp.configmap.redis.mode "redis-sentinel"}}
+  REDIS_NODES: {{ .Values.dmp.configmap.redis.nodes }}
+  REDIS_PASSWORD: {{ .Values.dmp.configmap.redis.password }} # 设置密码
+  REDIS_MASTER: {{ .Values.dmp.configmap.redis.master }}
+  {{ end }}
+
+  DB_URL: {{ .Values.dmp.configmap.db.url }}
+  DB_USERNAME: {{ .Values.dmp.configmap.db.username }}
+  DB_PASSWORD: {{ .Values.dmp.configmap.db.password }}
+
+  ES_URL: {{ .Values.dmp.configmap.es.url }}
+  {{ if ne .Values.dmp.configmap.es.username "" }}
+  ES_USERNAME: {{ .Values.dmp.configmap.es.username }}
+  {{ end }}
+  {{ if ne .Values.dmp.configmap.es.password "" }}
+  ES_PASSWORD: {{ .Values.dmp.configmap.es.password }}
+  {{ end }}
+
+  ## DMP组件日志通过Kafka写入ES
+  {{ if eq .Values.dmp.configmap.loggingKafkaConfigFile "log4j2-kafka.xm" }}
+  DMP_LOGS_KAFKA_SERVERS: {{ .Values.dmp.configmap.kafkaServers }}
+  {{ end }}
+
+
+  USER_CENTER_URL: "http://{{ .Release.Name }}-dmp-user-center:9050"
+  SKYWALKING_QUERY_URL:  "http://{{ .Release.Name }}-dmp-sw-query-server:12801"
+
+  DMP_LOGS_LEVEL: {{ .Values.dmp.configmap.logLevel }}

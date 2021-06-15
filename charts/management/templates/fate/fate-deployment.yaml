@@ -41,7 +41,7 @@ spec:
             - containerPort: 9056
           envFrom:
             - configMapRef:
-                name: "{{ .Release.Name }}-dmp-admin-configmap"
+                name: "{{ .Release.Name }}-dmp-config-common"
           env:
             - name: DMP_LOGS_TOPIC
               value: {{ .Values.dmp.fate.logTpoic }}
