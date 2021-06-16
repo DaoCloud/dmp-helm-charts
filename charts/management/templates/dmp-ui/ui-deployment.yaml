@@ -42,7 +42,9 @@ spec:
             - containerPort: 8098
           envFrom:
             - configMapRef:
-                name: "{{ .Release.Name }}-dmp-admin-configmap"
+                name: "{{ .Release.Name }}-dmp-config-common"
+            - configMapRef:
+                name: "{{ .Release.Name }}-dmp-config-ui"
           volumeMounts:
             - name: host-time
               mountPath: /etc/localtime
