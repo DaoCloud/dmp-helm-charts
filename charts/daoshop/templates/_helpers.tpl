@@ -66,9 +66,9 @@ monitor sidecar.
 */}}
 {{- define "daoshop.initContainer" -}}
 - name: dx-monitor-agent-sidecar
-  image: registry.dx.io/dx-pilot/dx-monitor-agent-sidecar:2.5.0
+  image: {{ .Values.monitor-sidecar.image.repository }}:{{ .Values.monitor-sidecar.image.tag }}
   imagePullPolicy: Always
-  command: ['sh', '-c', 'mv /sidecar/skywalking/agent/optional-plugins/apm-trace-ignore-plugin-8.4.0.DMP.jar /sidecar/skywalking/agent/plugins; echo trace.ignore_path=${TRACE_IGNORE_PATH} >> /sidecar/skywalking/agent/config/apm-trace-ignore-plugin.config;cp -r /sidecar /target;']
+  command: ['sh', '-c', 'mv /sidecar/skywalking/agent/optional-plugins/apm-trace-ignore-plugin-8.6.0.DMP.jar /sidecar/skywalking/agent/plugins; echo trace.ignore_path=${TRACE_IGNORE_PATH} >> /sidecar/skywalking/agent/config/apm-trace-ignore-plugin.config;cp -r /sidecar /target;']
   volumeMounts:
     - name: sidecar
       mountPath: /target

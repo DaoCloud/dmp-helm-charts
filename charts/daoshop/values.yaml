@@ -13,6 +13,11 @@ tenant:
   configServiceUrl: "http://dmp-management-release-dmp-apollo-configservice:8080"
   # admin 服务链接 apollo 拉取配置的 appid
   configAppId: "test.daoshop"
+monitor-sidecar:
+  image:
+    repository: registry.dx.io/dx-pilot/dx-monitor-agent-sidecar
+    tag: 2.5.1
+    pullPolicy: Always
 daoshop:
   ui:
     image:
