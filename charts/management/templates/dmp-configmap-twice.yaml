@@ -7,3 +7,8 @@ metadata:
 data:
   K8S_SERVER: {{ .Values.external.k8sServer }}
   K8S_TOKEN: {{ .Values.external.k8sToken }}
+  MANAGEMENT_NAMESPACE: {{ .Release.Namespace }}
+  TENANT_LABEL_NAME: 'dmp.daocloud.io/gateway'
+  SERVICE_LABEL_NAME: 'dmp.daocloud.io/app' 
+  GATEWAY_ENVOY_PORT: '9901'
+  GATEWAY_THOR_PORT: '9876'

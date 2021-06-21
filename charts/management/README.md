@@ -22,6 +22,18 @@ management 需要链接 Mysql,Redis,Elasticsearch 中间件，因此须确保 DM
     You can copy and using like: redispass@test-base-dmp-redis.testns.svc.cluster.local:6379
 ···
 ```
+## 组件配置说明  
+### twice
+| 环境变量 | 说明 | 默认值 | 备注 |
+| :-----| :----- | :----- | :----- |
+| `K8S_SERVER` | k8s api server 地址 | - | - |
+| `K8S_TOKEN` | token | - | - |
+| `MANAGEMENT_NAMESPACE` | dmp 系统组件部署的租户 | `{{.Release.Namespace}}` | 用于获取系统组件健康状态 |
+| `TENANT_LABEL_NAME` | 网关deployment envcode的标签 | `dmp.daocloud.io/gateway` | 用于获取网关组件健康状态 |
+| `SERVICE_LABEL_NAME` | 网关svc的标签 | `dmp.daocloud.io/app` | 用于获取网关svc的nodePort |
+| `GATEWAY_ENVOY_PORT` | 网关envoy端口 | `9901` | - |
+| `GATEWAY_THOR_PORT` | 网关thor端口 | `9876` | - |
+
 
 ## 安装 management
 
