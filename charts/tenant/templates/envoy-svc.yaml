@@ -2,6 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "{{ .Release.Name }}-dmp-gateway-{{ .Values.dmp.tenant.code }}"
+  labels:
+    app: "{{ .Release.Name }}-dmp-gateway-{{ .Values.dmp.tenant.code }}"
+    # health check labels.
+    dmp.daocloud.io/app: "dmp-gateway-{{ .Values.dmp.tenant.code }}"
+    dmp.daocloud.io/gateway: "{{ .Values.dmp.tenant.code }}"
 spec:
   type: {{ .Values.dmp.tenant.gateway.service.type }}
   ports:
