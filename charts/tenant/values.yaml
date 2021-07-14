@@ -17,11 +17,11 @@ dmp:
       image:
         envoy:
           repository: registry.dx.io/dx-pilot/dmp-envoy
-          tag: develop-7074d4b  # Must be set explicitly
+          tag: 2.5.1  # Must be set explicitly
           pullPolicy: IfNotPresent
         fluentd:
           repository: registry.dx.io/dx-pilot/dmp-fluentd
-          tag: develop-f488ed2  # Must be set explicitly
+          tag: 2.5.1  # Must be set explicitly
           pullPolicy: IfNotPresent
         thor:
           repository: registry.dx.io/dx-pilot/dmp-thor
