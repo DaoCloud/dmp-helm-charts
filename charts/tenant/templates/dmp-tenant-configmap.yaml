@@ -15,4 +15,10 @@ data:
   FLUENT_ES_PORT: {{ .Values.dmp.tenant.esPort | quote }}
   KUBE_NS: "{{ .Release.Namespace }}"
   ADMIN_IP: {{ .Values.dmp.tenant.adminIP }}
-  
+
+  COLLECT_LOG_BY_KAFKA: {{ .Values.dmp.tenant.collectLogByKafka }}
+  FLUENT_ES_ADDRS: {{ .Values.dmp.tenant.esAddrs | quote }}
+  ES_USERNAME: {{ .Values.dmp.tenant.esUsername | quote }}
+  ES_PASSWORD: {{ .Values.dmp.tenant.esPassword | quote }}
+
+  KAFKA_ADDRS: {{ .Values.dmp.tenant.kafkaAddrs | quote }}
