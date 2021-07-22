@@ -6,10 +6,13 @@ dmp:
     swOapPort: "11800"
     twiceHost: "dmp-management-release-dmp-twice.dmp.svc"
     twicePort: "7000"
-    fateServer: "ws://10.99.100.106:32354"
-    esHost: "elasticsearch-master.dmp.svc"
-    esPort: "9200"
+    fateServer: "ws://10.99.100.106:32354" # 该地址要写客户端浏览器能访问到的NodePort地址
     adminIP: "0.0.0.0"
+    collectLogByKafka: "false"
+    esAddrs: "elasticsearch-master.dmp.svc:9200" # 可以写多个地址，用逗号隔开，如果collectLogByKafka为false，填写该地址
+    esUsername: ""
+    esPassword: ""
+    kafkaAddrs: "" # 如果collectLogByKafka为true，则填写该地址
     gateway:
       replicas: 1
       service:
