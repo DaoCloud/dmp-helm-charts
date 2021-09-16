@@ -12,6 +12,8 @@ dmp:
     esAddrs: "elasticsearch-master.dmp.svc:9200" # 可以写多个地址，用逗号隔开，如果collectLogByKafka为false，填写该地址
     esUsername: ""
     esPassword: ""
+    esShards: "3" #网关 ES 索引主分片数，默认 3
+    esReplicas: "0" #网关 ES 索引副分片数，默认 0
     kafkaAddrs: "" # 如果collectLogByKafka为true，则填写该地址
     gateway:
       replicas: 1

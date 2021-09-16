@@ -20,5 +20,7 @@ data:
   FLUENT_ES_ADDRS: {{ .Values.dmp.tenant.esAddrs | quote }}
   ES_USERNAME: {{ .Values.dmp.tenant.esUsername | quote }}
   ES_PASSWORD: {{ .Values.dmp.tenant.esPassword | quote }}
+  ENVOY_ES_TEMPLATE_NUM_OF_SHARDS: {{ .Values.dmp.tenant.esShards | quote }}
+  ENVOY_ES_TEMPLATE_NUM_OF_REPLICAS: {{ .Values.dmp.tenant.esReplicas | quote }}
 
   KAFKA_ADDRS: {{ .Values.dmp.tenant.kafkaAddrs | quote }}
