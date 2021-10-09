@@ -40,14 +40,14 @@ dmp:
             successThreshold: 1
           ## Configure extra options for readiness probe
           ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
-          ## @param forwarder.readinessProbe.enabled Enable readinessProbe
-          ## @param forwarder.readinessProbe.httpGet.path Request path for readinessProbe
-          ## @param forwarder.readinessProbe.httpGet.port Port for readinessProbe
-          ## @param forwarder.readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
-          ## @param forwarder.readinessProbe.periodSeconds Period seconds for readinessProbe
-          ## @param forwarder.readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
-          ## @param forwarder.readinessProbe.failureThreshold Failure threshold for readinessProbe
-          ## @param forwarder.readinessProbe.successThreshold Success threshold for readinessProbe
+          ## @param dmp.tenant.gateway.image.fluentd.readinessProbe.enabled Enable readinessProbe
+          ## @param dmp.tenant.gateway.image.fluentd.readinessProbe.httpGet.path Request path for readinessProbe
+          ## @param dmp.tenant.gateway.image.fluentd.readinessProbe.httpGet.port Port for readinessProbe
+          ## @param dmp.tenant.gateway.image.fluentd.readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
+          ## @param fordmp.tenant.gateway.image.fluentdwarder.readinessProbe.periodSeconds Period seconds for readinessProbe
+          ## @param dmp.tenant.gateway.image.fluentd.readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
+          ## @param dmp.tenant.gateway.image.fluentd.readinessProbe.failureThreshold Failure threshold for readinessProbe
+          ## @param dmp.tenant.gateway.image.fluentd.readinessProbe.successThreshold Success threshold for readinessProbe
           ##
           readinessProbe:
             enabled: true
