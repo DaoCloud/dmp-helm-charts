@@ -50,6 +50,28 @@ spec:
         - name: "{{ .Release.Name }}-dmp-fluentd-{{ .Values.dmp.tenant.code }}"
           image: {{ .Values.dmp.tenant.gateway.image.fluentd.repository }}:{{ .Values.dmp.tenant.gateway.image.fluentd.tag }}
           imagePullPolicy: {{ .Values.dmp.tenant.gateway.image.fluentd.pullPolicy }}
+          {{- if .Values.forwarder.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.dmp.tenant.gateway.image.fluentd.livenessProbe.httpGet.path }}
+              port: {{ .Values.dmp.tenant.gateway.image.fluentd.livenessProbe.httpGet.port }}
+            initialDelaySeconds: {{ .Values.dmp.tenant.gateway.image.fluentd.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.dmp.tenant.gateway.image.fluentd.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.dmp.tenant.gateway.image.fluentd.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.dmp.tenant.gateway.image.fluentd.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.dmp.tenant.gateway.image.fluentd.livenessProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.dmp.tenant.gateway.image.fluentd.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.dmp.tenant.gateway.image.fluentd.readinessProbe.httpGet.path }}
+              port: {{ .Values.dmp.tenant.gateway.image.fluentd.readinessProbe.httpGet.port }}
+            initialDelaySeconds: {{ .Values.dmp.tenant.gateway.image.fluentd.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.dmp.tenant.gateway.image.fluentd.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.dmp.tenant.gateway.image.fluentd.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.dmp.tenant.gateway.image.fluentd.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.dmp.tenant.gateway.image.fluentd.readinessProbe.failureThreshold }}
+          {{- end }}
           envFrom:
             - configMapRef:
                 name: "{{ .Release.Name }}-dmp-tenant-config-{{ .Values.dmp.tenant.code }}"
