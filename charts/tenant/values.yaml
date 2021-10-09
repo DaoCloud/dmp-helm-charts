@@ -28,10 +28,42 @@ dmp:
           repository: registry.dx.io/dx-pilot/dmp-fluentd
           tag: develop-f488ed2  # Must be set explicitly
           pullPolicy: IfNotPresent
+          livenessProbe:
+            enabled: true
+            httpGet:
+              path: /
+              port: 8888
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+            successThreshold: 1
+          ## Configure extra options for readiness probe
+          ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes
+          ## @param forwarder.readinessProbe.enabled Enable readinessProbe
+          ## @param forwarder.readinessProbe.httpGet.path Request path for readinessProbe
+          ## @param forwarder.readinessProbe.httpGet.port Port for readinessProbe
+          ## @param forwarder.readinessProbe.initialDelaySeconds Initial delay seconds for readinessProbe
+          ## @param forwarder.readinessProbe.periodSeconds Period seconds for readinessProbe
+          ## @param forwarder.readinessProbe.timeoutSeconds Timeout seconds for readinessProbe
+          ## @param forwarder.readinessProbe.failureThreshold Failure threshold for readinessProbe
+          ## @param forwarder.readinessProbe.successThreshold Success threshold for readinessProbe
+          ##
+          readinessProbe:
+            enabled: true
+            httpGet:
+              path: /
+              port: 8888
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+            successThreshold: 1
         thor:
           repository: registry.dx.io/dx-pilot/dmp-thor
           tag: develop-04211f9  # Must be set explicitly
           pullPolicy: IfNotPresent
+
 
 ############
 imagePullSecrets: []
